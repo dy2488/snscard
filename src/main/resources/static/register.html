@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+    <meta charset="UTF-8">
+    <title>register</title>
+    <link rel="stylesheet" type="text/css" href="css/style.css" />
+</head>
+<body>
+<div class="control">
+    <div class="item">
+        <div class="active">등록</div>
+    </div>
+    <div class="content">
+        <div style="display: block;">
+            <form action="/user/register" method="post">
+                <p>사용자</p>
+                <input type="text" placeholder="사용자 이름을 입력하십시오" name="username" />
+                <p>비밀번호</p>
+                <input type="password" placeholder="비밀번호를 입력하십시오" name ="password"/>
+                <br/>
+                <input type="submit" value="확인"/>
+            </form>
+            <p>좌계있음，<a href="/user/login" target="top">등록</a></p>
+
+        </div>
+    </div>
+</div>
+</body>
+</html>

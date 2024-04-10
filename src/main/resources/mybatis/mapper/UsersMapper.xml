@@ -9,4 +9,7 @@
     <insert id="addUser" parameterType="Users">
         insert into users (name,password) values (#{name},#{password})
     </insert>
+    <select id="queryUsers" parameterType="Users">
+        select * from users where name=#{name} and password=#{password}
+    </select>
 </mapper>
