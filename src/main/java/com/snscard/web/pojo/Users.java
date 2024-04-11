@@ -9,5 +9,5 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Users {
     private String name;
-    private String passWord;
+    private String password;
 }

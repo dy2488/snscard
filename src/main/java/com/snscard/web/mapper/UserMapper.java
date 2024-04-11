@@ -10,5 +10,6 @@ import java.util.List;
 @Repository
 public interface UserMapper {
     Users queryUsers(String name);
+    int addUser(String name,String password);
 
 }

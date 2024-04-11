@@ -3,11 +3,11 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.snscard.web.mapper.UserMapper">
-    <resultMap id="login" type="com.snscard.web.pojo.Users">
-        <id property="name" column="name"/>
-        <result property="passWord" column="password"/>
-    </resultMap>
-    <select id="queryUsers" resultMap="login">
+    <select id="queryUsers" resultType="com.snscard.web.pojo.Users">
         select * from users where name=#{name}
     </select>
+
+    <insert id="addUser" parameterType="string">
+        insert into users values(#{name},#{password})
+    </insert>
 </mapper>

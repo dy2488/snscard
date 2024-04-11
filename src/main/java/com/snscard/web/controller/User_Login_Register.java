@@ -24,4 +24,8 @@ public class User_Login_Register {
         return userService.login(username,password);
 
     }
+    @RequestMapping(value = "adduser")
+    public ResultVO add_user(@RequestParam("username") String username,@RequestParam("password") String password) {
+        return userService.addUser(username,password);
+    }
 }
