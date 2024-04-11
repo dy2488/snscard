@@ -9,14 +9,6 @@ import java.util.List;
 @Mapper
 @Repository
 public interface UserMapper {
-    List<Users> queryUserList();
-
-    int addUser(Users user);
-
-    int updateUser(Users user);
-
-    int deleteUser(int id);
-
-    Users queryUsers(String name,String password);
+    Users queryUsers(String name);
 
 }
