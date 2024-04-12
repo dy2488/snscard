@@ -10,4 +10,10 @@
     <insert id="addUser" parameterType="string">
         insert into users values(#{name},#{password})
     </insert>
+    <delete id="deleteUser" parameterType="string">
+        delete from users where name=#{name}
+    </delete>
+    <update id="updateUser" parameterType="com.snscard.web.pojo.Users">
+        update users set password=#{password} where name=#{name}
+    </update>
 </mapper>

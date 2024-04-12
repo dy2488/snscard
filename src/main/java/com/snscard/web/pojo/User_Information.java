@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor//변수 없은 구조자
 public class User_Information {
     private String name;
+    private String username;
     private String name_us;
     private String tel;
     private String address;
