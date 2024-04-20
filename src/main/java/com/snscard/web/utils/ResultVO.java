@@ -10,5 +10,4 @@ import lombok.NoArgsConstructor;
 public class ResultVO {
     private int code;
     private String msg;
-    private Object data;
 }
