@@ -14,7 +14,7 @@ public class User_Login_Register {
 
 
     @RequestMapping(value = "login")
-    public ResultVO login(@RequestParam("id") String username, @RequestParam("password") String password, HttpSession session) {
+    public ResultVO login(@RequestParam("id") String username, @RequestParam("password") String password) {
         return userService.login(username,password);
 
     }

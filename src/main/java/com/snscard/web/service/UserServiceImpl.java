@@ -24,7 +24,8 @@ public class UserServiceImpl implements UserService {
     public ResultVO login(String username, String password) {
         Subject subject = SecurityUtils.getSubject();
         Users users = userMapper.queryUsers(username);
-        SimpleHash pd_hash= new SimpleHash("SHA-256", password,users.getSalt() , 1024);
+        String salt = userMapper.getSalt(username);
+        SimpleHash pd_hash= new SimpleHash("SHA-256", password ,salt, 1024);
         UsernamePasswordToken token = new UsernamePasswordToken(username, pd_hash.toHex());
         try {
             subject.login(token);
@@ -43,9 +44,10 @@ public class UserServiceImpl implements UserService {
         if (users == null) {
             String uuid= UUID.randomUUID().toString();
             String salt=uuid+username;
-            SimpleHash password_salt=new SimpleHash("SHA-256",salt,uuid,1024);
+            SimpleHash password_salt=new SimpleHash("SHA-256",salt,uuid,10);
             SimpleHash simpleHash=new SimpleHash("SHA-256",password,password_salt.toHex(),1024);
-            userMapper.addUser(username,simpleHash.toHex(),password_salt.toHex());
+            userMapper.addUser(username,simpleHash.toHex());
+            userMapper.setSalt(username,password_salt.toHex());
             return new ResultVO(1003, "사용자 추가 성공");
         }
         return new ResultVO(1004, "이미 존재하는 사용자입니다");

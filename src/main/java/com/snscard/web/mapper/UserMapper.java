@@ -9,9 +9,11 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface UserMapper {
     Users queryUsers(String name);
-    void addUser(String name,String password,String salt);
+    void addUser(String name,String password);
     void deleteUser(String name);
     void updateUser(String name,String password);
+    String getSalt(String name);
+    void setSalt(String name,String salt);
 
 
 }
