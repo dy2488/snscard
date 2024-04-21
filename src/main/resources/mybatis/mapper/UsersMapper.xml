@@ -8,7 +8,7 @@
     </select>
 
     <insert id="addUser" parameterType="string">
-        insert into users values(#{name},#{password})
+        insert into users values(#{name},#{password},#{salt})
     </insert>
     <delete id="deleteUser" parameterType="string">
         delete from users where name=#{name}

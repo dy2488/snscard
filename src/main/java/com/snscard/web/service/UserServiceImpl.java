@@ -9,8 +9,11 @@ import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.crypto.hash.SimpleHash;
 import org.apache.shiro.subject.Subject;
 import org.springframework.stereotype.Service;
+
+import java.util.UUID;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -20,8 +23,9 @@ public class UserServiceImpl implements UserService {
     @Override
     public ResultVO login(String username, String password) {
         Subject subject = SecurityUtils.getSubject();
-        UsernamePasswordToken token = new UsernamePasswordToken(username, password);
-
+        Users users = userMapper.queryUsers(username);
+        SimpleHash pd_hash= new SimpleHash("SHA-256", password,users.getSalt() , 1024);
+        UsernamePasswordToken token = new UsernamePasswordToken(username, pd_hash.toHex());
         try {
             subject.login(token);
             subject.getSession().setAttribute("username", username);
@@ -30,14 +34,18 @@ public class UserServiceImpl implements UserService {
         } catch (IncorrectCredentialsException e) {
             return new ResultVO(1002, "비밀번호가 틀렸습니다");
         }
-        return new ResultVO(1001, "로그인 성공");
+        return new ResultVO(1001, "로그인 성공",users.getName());
     }
 
     @Override
     public ResultVO addUser(String username, String password) {
         Users users = userMapper.queryUsers(username);
         if (users == null) {
-            userMapper.addUser(username, password);
+            String uuid= UUID.randomUUID().toString();
+            String salt=uuid+username;
+            SimpleHash password_salt=new SimpleHash("SHA-256",salt,uuid,1024);
+            SimpleHash simpleHash=new SimpleHash("SHA-256",password,password_salt.toHex(),1024);
+            userMapper.addUser(username,simpleHash.toHex(),password_salt.toHex());
             return new ResultVO(1003, "사용자 추가 성공");
         }
         return new ResultVO(1004, "이미 존재하는 사용자입니다");
