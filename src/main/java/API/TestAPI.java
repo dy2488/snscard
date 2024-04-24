@@ -16,11 +16,9 @@ public class TestAPI
         System.out.println(imgUrl);
         */
 
-        //GIT test
-
-
+        //GITAPi test
         GithubAPI g = new GithubAPI();
-        List<Post> temp = g.getGithubAPI("https://github.com/yjpark0307/");
+        List<Post> temp = g.getGithubApi("https://github.com/yjpark0307/"); //파라터 형식은 되도록 지켜주기 바람
         System.out.println(temp);
 
 

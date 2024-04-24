@@ -1,26 +1,26 @@
 package API.dto;
 
-public class Post
+public class Post //게시물정보 캡슐화한 클래스
 {
     String title;
-    int time;
+    int date;
     String img_url;
 
-    public Post(String title, int time, String img_url)
+    public Post(String title, int date, String img_url)
     {
         this.title = title;
-        this.time = time;
+        this.date = date;
         this.img_url = img_url;
     }
-    public Post(String title, int time)
+    public Post(String title, int date)
     {
         this.title = title;
-        this.time = time;
+        this.date = date;
     }
 
     @Override
     public String toString() {
-        return "Title: " + title + ", Date: " + time +", img_url: " + img_url;
+        return "Title: " + title + ", Date: " + date +", img_url: " + img_url;
     }
 
 }

@@ -18,16 +18,16 @@ public class GithubAPI
     public GithubAPI()
     {
     }
-    public List<Post> getGithubAPI(String sourceUrl) throws Exception
+    public List<Post> getGithubApi(String sourceUrl) throws Exception //주요 메서드
     {
-        UrlParser u = new UrlParser();
+        UrlParser u = new UrlParser(); //받은 URL 파싱
         String userName = u.parseUrl(sourceUrl,1);
         String requestUrl = Github_Url + userName +"/repos";
         String response = requestHttp(requestUrl);
         List<Post> result = parseGithubJson(response);
         return result;
     }
-    public List<Post> parseGithubJson(String jsonData)
+    public List<Post> parseGithubJson(String jsonData) //받은 JSON 파싱 후 배열로 저장
     {
         JSONArray repos = new JSONArray(jsonData);
         List<Post> postList = new ArrayList<>();
@@ -47,7 +47,7 @@ public class GithubAPI
         }
         return postList;
     }
-    public String requestHttp(String requestUrl) throws IOException, InterruptedException {
+    public String requestHttp(String requestUrl) throws IOException, InterruptedException { //http 요청
             HttpClient client = HttpClient.newHttpClient();
             HttpRequest request = HttpRequest.newBuilder()
                     .uri(URI.create(requestUrl))
