@@ -1,6 +1,9 @@
 package API;
 
 import API.api.GithubAPI;
+import API.dto.Post;
+
+import java.util.List;
 
 public class TestAPI
 {
@@ -15,10 +18,10 @@ public class TestAPI
 
         //GIT test
 
+
         GithubAPI g = new GithubAPI();
-        String[][] temp = g.getGithubAPI("https://github.com/yjpark0307/");
-        System.out.println(temp[0][0] + " " +temp[0][1]);
-        System.out.println(temp[1][0] + " " +temp[1][1]);
+        List<Post> temp = g.getGithubAPI("https://github.com/yjpark0307/");
+        System.out.println(temp);
 
 
 

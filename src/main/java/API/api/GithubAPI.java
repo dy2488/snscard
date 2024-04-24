@@ -1,5 +1,6 @@
 package API.api;
 import API.UrlParser;
+import API.dto.*;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -8,6 +9,8 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.util.ArrayList;
+import java.util.List;
 
 public class GithubAPI
 {
@@ -15,32 +18,34 @@ public class GithubAPI
     public GithubAPI()
     {
     }
-    public String[][] getGithubAPI(String sourceUrl) throws Exception
+    public List<Post> getGithubAPI(String sourceUrl) throws Exception
     {
         UrlParser u = new UrlParser();
         String userName = u.parseUrl(sourceUrl,1);
         String requestUrl = Github_Url + userName +"/repos";
-        System.out.println(requestUrl);
         String response = requestHttp(requestUrl);
-        System.out.println(response);
-        String[][] temp = parseGithubJson(response);
-        return temp;
+        List<Post> result = parseGithubJson(response);
+        return result;
     }
-    public String[][] parseGithubJson(String jsonData)
+    public List<Post> parseGithubJson(String jsonData)
     {
         JSONArray repos = new JSONArray(jsonData);
-
+        List<Post> postList = new ArrayList<>();
         String[][] result = new String[repos.length()][2];
         for(int i=0;i<repos.length();i++)
         {
             JSONObject repo = repos.getJSONObject(i);
             String name = repo.getString("name");
             String updatedAt = repo.getString("updated_at");
-            System.out.println(name + "" +updatedAt);
-            result[i][0] = name;
-            result[i][1] = updatedAt;
+
+            int tIndex = updatedAt.indexOf('T');
+            String subString = updatedAt.substring(0, tIndex);
+            String dateString = subString.replace("-","");
+            int date = Integer.parseInt(dateString);
+
+            postList.add(new Post(name,date));
         }
-        return result;
+        return postList;
     }
     public String requestHttp(String requestUrl) throws IOException, InterruptedException {
             HttpClient client = HttpClient.newHttpClient();
