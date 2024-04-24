@@ -5,8 +5,6 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.net.URI;
-import java.net.URL;
-import java.net.MalformedURLException;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
@@ -23,7 +21,7 @@ public class GithubAPI
         String userName = u.parseUrl(sourceUrl,1);
         String requestUrl = Github_Url + userName +"/repos";
         System.out.println(requestUrl);
-        String response = requestApi(requestUrl);
+        String response = requestHttp(requestUrl);
         System.out.println(response);
         String[][] temp = parseGithubJson(response);
         return temp;
@@ -44,7 +42,7 @@ public class GithubAPI
         }
         return result;
     }
-    public String requestApi(String requestUrl) throws IOException, InterruptedException {
+    public String requestHttp(String requestUrl) throws IOException, InterruptedException {
             HttpClient client = HttpClient.newHttpClient();
             HttpRequest request = HttpRequest.newBuilder()
                     .uri(URI.create(requestUrl))
