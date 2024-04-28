@@ -1,0 +1,21 @@
+spring:
+  profiles:
+    active: @profile.name@
+  application:
+    name: web
+  datasource:
+    url: jdbc:mysql://localhost:3306/sns_card
+    username: root
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  thymeleaf:
+    prefix: classpath:/templates/
+    suffix: .html
+mybatis:
+  type-aliases-package: com.snscard.web.pojo
+  mapper-locations: classpath:mybatis/mapper/*.xml
+server:
+  servlet:
+    session:
+      tracking-modes: cookie
+      cookie:
+        http-only: true

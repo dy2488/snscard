@@ -2,7 +2,9 @@ package com.snscard.web.service;
 
 import com.snscard.web.mapper.UserMapper;
 import com.snscard.web.pojo.Users;
+import com.snscard.web.pojo.Users_Path;
 import com.snscard.web.utils.ResultVO;
+import com.snscard.web.utils.Result_Path;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpSession;
 import org.apache.shiro.SecurityUtils;
@@ -55,7 +57,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public ResultVO deleteUser(HttpSession session) {
-        Subject subject = SecurityUtils.getSubject();
+//        Subject subject = SecurityUtils.getSubject();
         String username = (String) session.getAttribute("username");
         userMapper.deleteUser(username);
         String msg=username+"고객님 정보 삭제되었습니다";
@@ -65,7 +67,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public ResultVO updateUser(String password) {
         Subject subject = SecurityUtils.getSubject();
-        String username = (String)subject.getSession().getAttribute("username");
+        String username=(String) subject.getSession().getAttribute("username");
         userMapper.updateUser(username, password);
         subject.logout();
         return new ResultVO(1006, "사용자정보 수정되었습니다");
@@ -74,8 +76,20 @@ public class UserServiceImpl implements UserService {
     @Override
     public ResultVO Logout() {
         Subject subject = SecurityUtils.getSubject();
+        Object username = subject.getSession().getAttribute("username");
+        if(username==null){
+            return new ResultVO(2001,"로그하지 않는 상태입니다.");
+        }
         subject.logout();
         return new ResultVO(2000, "로그아웃 성공");
+    }
+
+    @Override
+    public Result_Path getUserPath(String username) {
+        Users_Path usersPath = userMapper.queryUsersPath(username);
+        String imagePath = usersPath.getImage_path();
+        String urlPath = usersPath.getUrl_path();
+        return new Result_Path(usersPath.getImage_path(),usersPath.getUrl_path());
     }
 }
 

@@ -25,7 +25,7 @@ public class User_Login_Register {
     public ResultVO delete_user(HttpSession session) {
         return userService.deleteUser(session);
     }
-    @RequestMapping(value="updateUser")
+    @RequestMapping(value="update_password")
     public ResultVO updateUser(@RequestParam("password")String password) {
         return userService.updateUser(password);
     }

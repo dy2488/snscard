@@ -1,0 +1,5 @@
+server:
+  port: 80
+spring:
+  datasource:
+    password: WWW.DY2488.COM

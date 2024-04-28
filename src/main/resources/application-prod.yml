@@ -1,0 +1,10 @@
+server:
+  port: 443
+  ssl:
+    enabled: true
+    key-store: classpath:ourcards.top.pfx
+    key-store-password: qqy6sjdj
+    key-store-type: PKCS12
+spring:
+  datasource:
+    password: DingYu,!199000521

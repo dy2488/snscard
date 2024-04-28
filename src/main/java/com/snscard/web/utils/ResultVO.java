@@ -1,5 +1,6 @@
 package com.snscard.web.utils;
 
+import com.snscard.web.pojo.Users;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -9,11 +10,11 @@ import lombok.NoArgsConstructor;
 public class ResultVO {
     private int code;
     private String msg;
-    private String name;
-    public ResultVO(int code, String msg, Object data) {
+    private String user;
+    public ResultVO(int code, String msg, String user) {
         this.code = code;
         this.msg = msg;
-        this.name = name;
+        this.user = user;
     }
     public ResultVO(int code, String msg) {
         this.code = code;
