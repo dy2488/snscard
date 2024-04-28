@@ -4,13 +4,13 @@ public class Post //게시물정보 캡슐화한 클래스
 {
     String title;
     int date;
-    String img_url;
+    String imgUrl;
 
     public Post(String title, int date, String img_url)
     {
         this.title = title;
         this.date = date;
-        this.img_url = img_url;
+        this.imgUrl = imgUrl;
     }
     public Post(String title, int date)
     {
@@ -18,9 +18,21 @@ public class Post //게시물정보 캡슐화한 클래스
         this.date = date;
     }
 
+    public String getTitle()
+    {
+        return title;
+    }
+    public int getDate()
+    {
+        return date;
+    }
+    public String getImgUrl()
+    {
+        return imgUrl;
+    }
     @Override
     public String toString() {
-        return "Title: " + title + ", Date: " + date +", img_url: " + img_url;
+        return "(title: " + title + ", date: " + date +", imgUrl: " + imgUrl + ")";
     }
 
 }
