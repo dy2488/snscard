@@ -1,7 +1,8 @@
 package com.snscard.web.service;
 
 import com.snscard.web.utils.ResultVO;
+import com.snscard.web.utils.Result_Information;
 
 public interface InformationService {
-    ResultVO getInformation(String username);
+    Result_Information getInformation();
 }

@@ -8,5 +8,5 @@ import org.springframework.stereotype.Repository;
 @Mapper
 @Repository
 public interface InformationMapper {
-    User_Information queryUserInformation(@Param("name") String name);
+    User_Information queryUserInformation(String name);
 }

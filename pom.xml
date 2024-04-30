@@ -18,6 +18,7 @@
         <java.version>17</java.version>
 <!--        <spring-ai.version>0.8.1</spring-ai.version>-->
     </properties>
+
 <!--    <dependencyManagement>-->
 <!--        <dependencies>-->
 <!--            <dependency>-->
@@ -58,6 +59,7 @@
                 </exclusion>
             </exclusions>
         </dependency>
+
         <dependency>
             <groupId>org.apache.shiro</groupId>
             <artifactId>shiro-core</artifactId>
@@ -153,12 +155,16 @@
     </profile>
 </profiles>
     <build>
+
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
         </plugins>
+
     </build>
+
+
 
 </project>

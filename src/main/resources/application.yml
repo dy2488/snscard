@@ -19,3 +19,5 @@ server:
       tracking-modes: cookie
       cookie:
         http-only: true
+
+

@@ -17,5 +17,6 @@ public class User_Information {
     private String company;
     private String email;
     private String introduction;
-    private String photo_path;
+    private String image_path;
+    private String url_path;
 }

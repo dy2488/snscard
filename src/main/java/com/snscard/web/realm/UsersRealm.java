@@ -2,14 +2,17 @@ package com.snscard.web.realm;
 
 import com.snscard.web.mapper.UserMapper;
 import com.snscard.web.pojo.Users;
-import jakarta.annotation.Resource;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 
 public class UsersRealm extends AuthorizingRealm {
-    @Resource
+
+    @Autowired
+    @Lazy
     private UserMapper userMapper;
     //授权
     //권한 부여

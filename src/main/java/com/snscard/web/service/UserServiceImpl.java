@@ -5,7 +5,6 @@ import com.snscard.web.pojo.Users;
 import com.snscard.web.pojo.Users_Path;
 import com.snscard.web.utils.ResultVO;
 import com.snscard.web.utils.Result_Path;
-import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpSession;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.IncorrectCredentialsException;
@@ -13,30 +12,39 @@ import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.crypto.hash.SimpleHash;
 import org.apache.shiro.subject.Subject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
 
 @Service
 public class UserServiceImpl implements UserService {
-    @Resource
-    private UserMapper userMapper;
+    private final UserMapper userMapper;
+
+    @Autowired
+    public UserServiceImpl(UserMapper userMapper) {
+        this.userMapper = userMapper;
+    }
 
     @Override
     public ResultVO login(String username, String password) {
         Subject subject = SecurityUtils.getSubject();
-        Users users = userMapper.queryUsers(username);
         String salt = userMapper.getSalt(username);
+        if(salt==null)
+        {
+            return new ResultVO(1000,"사용자 정보 없습니다");
+        }
         SimpleHash pd_hash= new SimpleHash("SHA-256", password ,salt, 1024);
         UsernamePasswordToken token = new UsernamePasswordToken(username, pd_hash.toHex());
         try {
             subject.login(token);
             subject.getSession().setAttribute("username", username);
-        } catch (UnknownAccountException e) {
-            return new ResultVO(1000, "사용자 정보 없습니다");
+//        } catch (UnknownAccountException e) {
+//            return new ResultVO(1000, "사용자 정보 없습니다");
         } catch (IncorrectCredentialsException e) {
             return new ResultVO(1002, "비밀번호가 틀렸습니다");
         }
+        Users users = userMapper.queryUsers(username);
         return new ResultVO(1001, "로그인 성공",users.getName());
     }
 
@@ -68,9 +76,11 @@ public class UserServiceImpl implements UserService {
     public ResultVO updateUser(String password) {
         Subject subject = SecurityUtils.getSubject();
         String username=(String) subject.getSession().getAttribute("username");
-        userMapper.updateUser(username, password);
+        String salt = userMapper.getSalt(username);
+        SimpleHash simpleHash = new SimpleHash("SHA-256", password, salt, 1024);
+        userMapper.updateUser(username, simpleHash.toHex());
         subject.logout();
-        return new ResultVO(1006, "사용자정보 수정되었습니다");
+        return new ResultVO(1006, "비밀번호 수정되었습니다");
     }
 
     @Override
