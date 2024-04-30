@@ -26,7 +26,6 @@ public class ShiroConfig {
         filterChainDefinitionMap.put("/update", "authc");
         filterChainDefinitionMap.put("/update_password", "authc");
         filterChainDefinitionMap.put("/login", "anon");
-        filterChainDefinitionMap.put("/info/**", "authc");
 
 
 

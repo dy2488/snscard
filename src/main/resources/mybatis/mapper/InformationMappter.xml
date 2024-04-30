@@ -4,6 +4,13 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.snscard.web.mapper.InformationMapper">
     <select id="queryUserInformation" resultType="com.snscard.web.pojo.User_Information">
-        select u.name,u.username,u.name_us,u.tel,u.address,u.vocation,u.company,u.email,u.introduction,p.image_path as image_path,p.url_path as url_path from user_information u join path p on p.name=u.name;
+        select u.name,u.username,u.name_us,u.tel,u.address,u.vocation,u.company,u.email,u.introduction,p.image_path as image_path,p.url_path as url_path from user_information u join path p on p.name=u.name where u.name=#{name};
     </select>
+    <insert id="insertInformation" parameterType="com.snscard.web.pojo.User_Information">
+        insert into user_information values (#{name},#{username},#{name_us},#{tel},#{address},#{vocation},#{company},#{email},#{introduction});
+    </insert>
+    <insert id="insertUserPath" parameterType="com.snscard.web.pojo.User_Information">
+        insert into path values (#{name},#{image_path},#{url_path});
+    </insert>
+
 </mapper>

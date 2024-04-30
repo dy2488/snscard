@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>add information</title>
+    <style>
+        div{
+            width: 500px;
+
+        }
+        label{
+            display: block;
+            text-align: right;
+            margin-bottom: 20px;
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+</head>
+<body>
+<script>
+    var button=document.getElementById("myButton")
+    function myButton(){
+
+        let username=document.getElementById('username').value
+        let name_us=document.getElementById('name_us').value
+        let tel=document.getElementById('tel').value
+        let address=document.getElementById('address').value
+        let vocation=document.getElementById('vocation').value
+        let company=document.getElementById('company').value
+        let email=document.getElementById('email').value
+        let introduction=document.getElementById('introduction').value
+
+        let user={}
+        user.username=username
+        user.name_us=name_us
+        user.tel=tel
+        user.address=address
+        user.vocation=vocation
+        user.company=company
+        user.company=company
+        user.email=email
+        user.introduction=introduction
+
+
+
+
+    }
+    button.addEventListener('click',myButton)
+
+
+
+</script>
+
+<div>
+    <label>이름:<input type="text" name="username" id="username"></label>
+    <label>영어이름:<input type="text" name="name_us" id="name_us"></label>
+    <label>tel:<input type="text" name="tel" id="tel"></label>
+    <label>주소:<input type="text" name="address" id="address"></label>
+    <label>직업:<input type="text" name="vocation" id="vocation"></label>
+    <label>회사:<input type="text" name="company" id="company"></label>
+    <label>메일:<input type="text" name="email" id="email"></label>
+    <label>소개:<textarea cols="30" rows="5" name="introduction" id="introduction"></textarea></label>
+    <button id="myButton">click!!!</button>
+</div>
+
+</body>
+</html>

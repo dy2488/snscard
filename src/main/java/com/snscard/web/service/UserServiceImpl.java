@@ -38,12 +38,12 @@ public class UserServiceImpl implements UserService {
         UsernamePasswordToken token = new UsernamePasswordToken(username, pd_hash.toHex());
         try {
             subject.login(token);
-            subject.getSession().setAttribute("username", username);
 //        } catch (UnknownAccountException e) {
 //            return new ResultVO(1000, "사용자 정보 없습니다");
         } catch (IncorrectCredentialsException e) {
             return new ResultVO(1002, "비밀번호가 틀렸습니다");
         }
+        subject.getSession().setAttribute("username", username);
         Users users = userMapper.queryUsers(username);
         return new ResultVO(1001, "로그인 성공",users.getName());
     }
