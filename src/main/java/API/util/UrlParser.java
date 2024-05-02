@@ -1,4 +1,4 @@
-package API;
+package API.util;
 import java.net.URL;
 public class UrlParser
 {

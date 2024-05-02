@@ -1,5 +1,5 @@
 package API.api;
-import API.UrlParser;
+import API.util.UrlParser;
 import API.dto.*;
 import org.json.JSONArray;
 import org.json.JSONObject;
