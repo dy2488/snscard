@@ -9,5 +9,5 @@ import org.springframework.stereotype.Repository;
 public interface InformationMapper {
     User_Information queryUserInformation(String name);
     void insertUserInformation(User_Information user_information);
-    void insertUserPath(User_Information user_information);
+    void insertUserPath(String name, User_Information user_information);
 }

@@ -23,24 +23,22 @@ public class InformationServiceImpl implements InformationService{
     @Override
     public Result_Information getInformation(String id) {
         User_Information userInformation = informationMapper.queryUserInformation(id);
-        return new Result_Information(5000,userInformation);
+        return new Result_Information(5000,"",userInformation);
     }
 
     @Override
-    public Result_Information insertInformation(@RequestBody JSONObject jsonObject) {
-        User_Information userInformation = new User_Information();
-        userInformation.setUsername(jsonObject.getString("username"));
-        userInformation.setName_us(jsonObject.getString("name_us"));
-        userInformation.setTel(jsonObject.getString("tel"));
-        userInformation.setAddress(jsonObject.getString("address"));
-        userInformation.setVocation(jsonObject.getString("vocation"));
-        userInformation.setCompany(jsonObject.getString("company"));
-        userInformation.setIntroduction(jsonObject.getString("introduction"));
+    public Result_Information insertInformation(String username,String name_us,String tel,String address,String vocation,String company,String email,String introduction) {
         Subject currentUser = SecurityUtils.getSubject();
-        String username = (String)currentUser.getSession().getAttribute("username");
-        userInformation.setName(username);
-        informationMapper.insertUserInformation(userInformation);
-        return new Result_Information(5001,userInformation);
+        String  name = (String)currentUser.getSession().getAttribute("username");
+        User_Information userInformation = new User_Information(name,username,name_us,tel,address,vocation,company,email,introduction,null,null);
+        try {
+            informationMapper.insertUserInformation(userInformation);
+            informationMapper.insertUserPath(name,null);
+            return new Result_Information(5001,"추가성공되었습니다",userInformation);
+
+        }catch (Exception e) {
+            return new Result_Information(5004,"예측하 지않는 문제가 발생습니다.",null);
+        }
     }
 
 }

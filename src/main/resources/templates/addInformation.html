@@ -14,12 +14,13 @@
             margin-bottom: 20px;
         }
     </style>
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 </head>
 <body>
 <script>
-    var button=document.getElementById("myButton")
+    import axios from "axios";
+
+    let button=document.getElementById("myButton")
     function myButton(){
 
         let username=document.getElementById('username').value
@@ -42,8 +43,13 @@
         user.email=email
         user.introduction=introduction
 
-
-
+        axios({
+            method:'POST',
+            url: '/info/addInfo',
+            data: {
+                user
+            }
+        });
 
     }
     button.addEventListener('click',myButton)
@@ -53,15 +59,17 @@
 </script>
 
 <div>
-    <label>이름:<input type="text" name="username" id="username"></label>
-    <label>영어이름:<input type="text" name="name_us" id="name_us"></label>
-    <label>tel:<input type="text" name="tel" id="tel"></label>
-    <label>주소:<input type="text" name="address" id="address"></label>
-    <label>직업:<input type="text" name="vocation" id="vocation"></label>
-    <label>회사:<input type="text" name="company" id="company"></label>
-    <label>메일:<input type="text" name="email" id="email"></label>
-    <label>소개:<textarea cols="30" rows="5" name="introduction" id="introduction"></textarea></label>
-    <button id="myButton">click!!!</button>
+    <form action="info/addInfo">
+        <label>이름:<input type="text" name="username" id="username"></label>
+        <label>영어이름:<input type="text" name="name_us" id="name_us"></label>
+        <label>tel:<input type="text" name="tel" id="tel"></label>
+        <label>주소:<input type="text" name="address" id="address"></label>
+        <label>직업:<input type="text" name="vocation" id="vocation"></label>
+        <label>회사:<input type="text" name="company" id="company"></label>
+        <label>메일:<input type="text" name="email" id="email"></label>
+        <label>소개:<textarea cols="30" rows="5" name="introduction" id="introduction"></textarea></label>
+        <label><input type="submit">click!!!</label>
+    </form>
 </div>
 
 </body>

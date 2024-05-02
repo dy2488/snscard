@@ -21,7 +21,7 @@ public class User_Information {
         return informationService.getInformation(id);
     }
     @RequestMapping("addInfo")
-    public Result_Information addInformation(@RequestBody JSONObject jsonObject) {
-        return informationService.insertInformation(jsonObject);
+    public Result_Information addInformation(String username,String name_us,String tel,String address,String vocation,String company,String email,String introduction) {
+        return informationService.insertInformation(username,name_us,tel,address,vocation,company,email,introduction);
     }
 }
