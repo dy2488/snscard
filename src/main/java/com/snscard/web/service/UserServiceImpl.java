@@ -93,12 +93,6 @@ public class UserServiceImpl implements UserService {
         return new ResultVO(2000, "로그아웃 성공");
     }
 
-    @Override
-    public Result_Path getUserPath(String username) {
-        Users_Path usersPath = userMapper.queryUsersPath(username);
-        String imagePath = usersPath.getImage_path();
-        String urlPath = usersPath.getUrl_path();
-        return new Result_Path(usersPath.getImage_path(),usersPath.getUrl_path());
-    }
+
 }
 

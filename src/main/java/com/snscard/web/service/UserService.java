@@ -10,6 +10,5 @@ public interface UserService {
     ResultVO deleteUser(HttpSession session);
     ResultVO updateUser(String password);
     ResultVO Logout();
-    Result_Path getUserPath(String username);
 
 }
