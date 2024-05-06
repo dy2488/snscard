@@ -1,7 +1,6 @@
 package com.snscard.web.service;
 
 import com.snscard.web.utils.ResultVO;
-import com.snscard.web.utils.Result_Path;
 import jakarta.servlet.http.HttpSession;
 
 public interface UserService {

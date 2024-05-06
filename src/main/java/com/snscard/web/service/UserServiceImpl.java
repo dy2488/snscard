@@ -2,9 +2,7 @@ package com.snscard.web.service;
 
 import com.snscard.web.mapper.UserMapper;
 import com.snscard.web.pojo.Users;
-import com.snscard.web.pojo.Users_Path;
 import com.snscard.web.utils.ResultVO;
-import com.snscard.web.utils.Result_Path;
 import jakarta.servlet.http.HttpSession;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.IncorrectCredentialsException;
