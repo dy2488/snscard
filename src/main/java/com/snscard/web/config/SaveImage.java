@@ -13,6 +13,7 @@ import java.nio.file.Paths;
 public class SaveImage {
     private String image;
 
+
     public void save(String imageUrl,String imageName) throws IOException {
         JSONObject jsonObject = new JSONObject(imageUrl);
         JSONArray data = jsonObject.getJSONArray("data");

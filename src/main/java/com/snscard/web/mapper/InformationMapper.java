@@ -2,7 +2,6 @@ package com.snscard.web.mapper;
 
 import com.snscard.web.pojo.User_Information;
 import org.apache.ibatis.annotations.Mapper;
-
 @Mapper
 public interface InformationMapper {
     User_Information queryUserInformation(String name);

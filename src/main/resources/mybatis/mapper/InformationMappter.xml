@@ -15,8 +15,5 @@
     <insert id="insertUserAnswer" parameterType="String">
         insert into user_answer(id,name, a1, a2, a3, a4, a5) values (#{id},#{name},#{a1},#{a2},#{a3},#{a4},#{a5});
     </insert>
-    <select id="queryUsersPath" resultType="com.snscard.web.pojo.Users_Path">
-        select image_path from path where name=#{name};
-    </select>
 
 </mapper>

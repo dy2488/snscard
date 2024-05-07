@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
+import org.springframework.context.annotation.Bean;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -22,6 +23,7 @@ public class ImageCropper {
     private int y3;
     private String path;
     private String name;
+    @Bean
     public void imageCropper()  {
         try{
             BufferedImage originalImage = ImageIO.read(new File(path));
