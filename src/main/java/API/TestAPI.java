@@ -10,7 +10,7 @@ public class TestAPI
 {
     public static void main(String[] args) throws Exception {
         //Dalle test
-        String apiKey="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";
+        /*
         String imgUrl,q1,q2,q3,q4,q5; //q1..은 아무거나 막 적은거라 실제로 들어갈 답변이랑은 매우 다릅니다
         q1="simple background"; // q1답변
         q2="abstract"; //q2 답변
@@ -20,6 +20,7 @@ public class TestAPI
         DalleAPI d = new DalleAPI();
         imgUrl = d.getDalleAPI(q1,q2,q3,q4,q5,apiKey);
         System.out.println(imgUrl);
+         */
 
         /*
         //깃허브 최근 업데이트된 프로젝트 3개의 제목,업데이트일자 가져오기   //관련 클래스 : GithubAPI

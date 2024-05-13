@@ -4,7 +4,10 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.Random;
+import java.util.HashMap;
+import java.util.Map;
 
+import API.util.AnswerMapper;
 import org.json.JSONObject;
 
 public class DalleAPI //이미지생성 AI 관련 클래스 입니다. 기본적으로 5개정도를 생성했었을때 0.1$의 비용이 듭니다. 현재 계정에는 10$가 충전되어있어 테스트 목적으로 넉넉히 사용 가능하나, 불필요하게 막쓰진 말아주세요.
@@ -20,16 +23,26 @@ public class DalleAPI //이미지생성 AI 관련 클래스 입니다. 기본적
         imgUrl = requestHttp(prompt,apiKey);
         return imgUrl;
     }
-    private String generatePrompt(String q1,String impression,String style,String tone, String object, int algorithmFlag)
+    private String generatePrompt(String q1,String q2,String q3,String q4, String q5, int algorithmFlag)
     {
+        AnswerMapper answermapper = new AnswerMapper();
+        String revisedQ1 = answermapper.getRevisedAnswer(q1,1);
+        String revisedQ2 = answermapper.getRevisedAnswer(q2,2);
+        String art = answermapper.getRevisedAnswer(q3,3);
+        String tone = answermapper.getRevisedAnswer(q4,4);
+        //String object = answermapper.getRevisedAnswer(q1,5);// 번역
+
         String prompt;
         String texture = randomTexture();
+        String shape = randomShape();
+        String style = revisedQ1 + " " + revisedQ2;
+        String object = q5;
         switch(algorithmFlag)
     {
-        case 1: prompt = "a " + style + " depicting " + texture + " textures that features " + tone + " using a " + q1 + " with emphasis on " + object + " emitting an aura of " + impression + "."; break;
-        default : prompt = q1 + ", " + impression + ", " + style + ", " + tone + ", " + object;
-
-    }
+        case 1: prompt = "a flat " + art + " depicting " + texture + " textures that features " + tone + " using a " + style + " " + shape +" with emphasis on " + object + "."; break;
+        default : prompt = "";
+    }//style,texture,tone
+        System.out.println(prompt);
         return prompt;
     }
 
@@ -39,6 +52,21 @@ public class DalleAPI //이미지생성 AI 관련 클래스 입니다. 기본적
         Random random = new Random();
         int index = random.nextInt(textureList.length);
         return textureList[index];
+    }
+    private String randomShape()
+    {
+        String[] shapeList = {"with no specific border","with filling the entire canvas"};
+        Random random = new Random();
+        int index = random.nextInt(shapeList.length);
+        return shapeList[index];
+    }
+
+    private String randomPattern()
+    {
+        String[] shapeList = {"line pattern","square pattern","circle pattern"};
+        Random random = new Random();
+        int index = random.nextInt(shapeList.length);
+        return shapeList[index];
     }
 
     private String requestHttp(String prompt, String apiKey) throws Exception
