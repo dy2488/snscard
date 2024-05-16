@@ -1,6 +1,7 @@
 package API.util;
 import java.util.HashMap;
 import java.util.Map;
+import com.deepl.api.*;
 public class AnswerMapper
 {
     Map<String,String> q1Map = new HashMap<>();
@@ -8,9 +9,11 @@ public class AnswerMapper
     Map<String,String> q3Map = new HashMap<>();
     Map<String,String> q4Map = new HashMap<>();
     Map<String,String> q5Map = new HashMap<>();
-    public AnswerMapper()
+    String authKey;
+    public AnswerMapper(String authKey)
     {
         initialize();
+        this.authKey = authKey;
     }
     private void initialize()
     {
@@ -39,8 +42,7 @@ public class AnswerMapper
         q4Map.put("깊은 톤", "deep tones");
         q4Map.put("어두운 톤", "dark tones");
     }
-    public String getRevisedAnswer(String answer, int questionNumber)
-    {
+    public String getRevisedAnswer(String answer, int questionNumber) throws DeepLException, InterruptedException {
         String revisedAnswer;
         switch (questionNumber)
         {
@@ -48,9 +50,16 @@ public class AnswerMapper
             case 2 : revisedAnswer = q2Map.get(answer); break;
             case 3 : revisedAnswer = q3Map.get(answer); break;
             case 4 : revisedAnswer = q4Map.get(answer); break;
-            case 5 : revisedAnswer = ""; break; //번역 해야함
+            case 5 : revisedAnswer = translateKorean(answer,authKey); break; //번역 해야함
             default: revisedAnswer = "";
         }
         return revisedAnswer;
+    }
+
+    private String translateKorean(String answer,String authKey) throws DeepLException, InterruptedException {
+        Translator translator = new Translator(authKey);
+        TextResult result = translator.translateText(answer,null,"en-US");
+        String revisedResult = result.getText();
+        return revisedResult;
     }
 }
