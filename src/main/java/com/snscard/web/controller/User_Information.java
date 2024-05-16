@@ -29,6 +29,11 @@ public class User_Information {
     public Result_Information addInformation(String username,String name_us,String tel,String address,String vocation,String company,String email,String introduction) {
         return informationService.insertInformation(username,name_us,tel,address,vocation,company,email,introduction);
     }
+    @RequestMapping("updateInfo")
+    public Result_Information updateInformation(String username,String name_us,String tel,String address,String vocation,String company,String email,String introduction)
+    {
+        return informationService.updateUserInformation(username,name_us,tel,address,vocation,company,email,introduction);
+    }
     @RequestMapping("addAnswer")
     public Result_Image addUserAnswer(String a1, String a2, String a3, String a4, String a5) throws Exception {
         return informationService.addUserAnswer(a1,a2,a3,a4,a5);
