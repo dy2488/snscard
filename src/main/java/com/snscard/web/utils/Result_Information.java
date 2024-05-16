@@ -7,10 +7,9 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 public class Result_Information {
     private int code;
     private String msg;
     private User_Information user;
-    public Result_Information(int code, String msg, User_Information user) {}
-    public Result_Information(int code, String msg) {}
 }

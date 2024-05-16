@@ -4,7 +4,9 @@ import com.snscard.web.DalleAPI.Generate_Image;
 import com.snscard.web.config.ImageCropper;
 import com.snscard.web.config.SaveImage;
 import com.snscard.web.config.UploadImage;
+import com.snscard.web.config.UploadUserImages;
 import com.snscard.web.mapper.InformationMapper;
+import com.snscard.web.pojo.UserImage;
 import com.snscard.web.pojo.User_Information;
 import com.snscard.web.utils.Result_Image;
 import com.snscard.web.utils.Result_Information;
@@ -17,6 +19,8 @@ import org.springframework.stereotype.Service;
 
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -39,40 +43,71 @@ public class InformationServiceImpl implements InformationService{
     public Result_Information insertInformation(String username,String name_us,String tel,String address,String vocation,String company,String email,String introduction) {
         Subject currentUser = SecurityUtils.getSubject();
         String  name = (String)currentUser.getSession().getAttribute("username");
-        User_Information userInformation = new User_Information(name,username,name_us,tel,address,vocation,company,email,introduction,null,null);
-        try {
-            informationMapper.insertUserInformation(userInformation);
-            return new Result_Information(5001,"추가성공되었습니다",userInformation);
+        User_Information userInformation1 = informationMapper.queryUserInformation(name);
+        if(userInformation1!=null){
+            return new Result_Information(5002,"사용자 정보를 이미 추가했습니다.사용자정보수정한 페이지를 이동해수세요",null);
+        }
+        else {
+            User_Information userInformation = new User_Information(name, username, name_us, tel, address, vocation, company, email, introduction);
+            try {
+                informationMapper.insertUserInformation(userInformation);
+                return new Result_Information(5001, "추가성공되었습니다", userInformation);
 
-        }catch (Exception e) {
-            return new Result_Information(5004,"예측하 지않는 문제가 발생습니다.",null);
+            } catch (Exception e) {
+                return new Result_Information(5004, "예측하 지않는 문제가 발생습니다.", null);
+            }
         }
     }
 
     @Override
     public ResponseEntity<Resource> getUserImage() throws IOException {
             Subject subject = SecurityUtils.getSubject();
-            return new UploadImage().getImage((String)subject.getSession().getAttribute("path"));
+        String rootPath= (String)subject.getSession().getAttribute("rootPath");
+        return new UploadImage().getImage(rootPath);
     }
 
     @Override
     public Result_Image CropperImage(int x1, int y1, int x3, int y3) {
         Subject subject = SecurityUtils.getSubject();
-        String path = (String)subject.getSession().getAttribute("path");
+        String path = (String)subject.getSession().getAttribute("rootPath");
         String name= (String)subject.getSession().getAttribute("username");
-        new ImageCropper(x1,y1,x3,y3,path,name).imageCropper();
+        String imageAllName= (String)subject.getSession().getAttribute("imageAllName");
+        new ImageCropper(x1,y1,x3,y3,path,name,imageAllName).imageCropper();
+        String uuid= (String)subject.getSession().getAttribute("uuid");
+        informationMapper.insertUserCropPath(uuid,name,imageAllName);
         return new Result_Image(6002,"수정되었습니다.");
     }
 
     @Override
     public ResponseEntity<Resource> getImageCropper() throws IOException {
         Subject subject = SecurityUtils.getSubject();
+        String cropperImagePath= (String)subject.getSession().getAttribute("cropperImagePath");
+        return new UploadImage().getImage(cropperImagePath);
+    }
 
-        String name= (String)subject.getSession().getAttribute("username");
-        String path = (String)subject.getSession().getAttribute("imageNewPath");
-        String uuid= (String)subject.getSession().getAttribute("uuid");
-        informationMapper.insertUserPath(uuid,name,path);
-        return new UploadImage().getImage(path);
+    @Override
+    public  ResponseEntity<List<String>> queryAllUserImage() throws IOException {
+        Subject subject = SecurityUtils.getSubject();
+        String username = (String)subject.getSession().getAttribute("username");
+//        pageNum=1;
+        UserImage userImage = new UserImage(username,0);
+        List<String> userImagesPath = informationMapper.queryAllUserImage(userImage);
+        List<String> list = new ArrayList<>();
+        String localPath;
+        for (String path : userImagesPath) {
+            localPath="https://ourcards.top/generatedImages/"+path;
+            list.add(localPath);
+        }
+        return new UploadUserImages().uploadUserImages(list);
+    }
+
+    @Override
+    public Result_Information updateUserInformation(String username,String name_us,String tel,String address,String vocation,String company,String email,String introduction) {
+        Subject subject = SecurityUtils.getSubject();
+        String name= (String) subject.getSession().getAttribute("username");
+        User_Information userInformation = new User_Information(name, username, name_us, tel, address, vocation, company, email, introduction);
+        informationMapper.updateUserInformation(userInformation);
+        return new Result_Information(5009,"사용자 정보 수정되었습니다",userInformation);
     }
 
 
@@ -84,14 +119,16 @@ public class InformationServiceImpl implements InformationService{
         String imageName=uuid+username;
         try{
             subject.getSession().setAttribute("image",imageName);
-            System.out.println(imageName);
-            String path="D:/"+imageName+".png";
-            subject.getSession().setAttribute("path",path);
+            String suffix=".png";
+            String imageAllName=imageName+suffix;
+            subject.getSession().setAttribute("imageAllName",imageAllName);
+            subject.getSession().setAttribute("uuid",uuid);
+            String path="/root/img/generatedImages/";
+            subject.getSession().setAttribute("rootPath",path+imageAllName);
             String image = new Generate_Image().getImage(a1, a2, a3, a4, a5);
-            System.out.println(image);
-            new SaveImage().save(image,imageName);
+            new SaveImage().save(image,imageName,path,suffix);
             informationMapper.insertUserAnswer(uuid,username,a1,a2,a3,a4,a5);
-            informationMapper.insertUserPath(uuid,username,path);
+            informationMapper.insertUserPath(uuid,username,imageAllName);
 
         }catch (Exception e) {
             new Result_Image(6004,"오류가 발생했습니다.");

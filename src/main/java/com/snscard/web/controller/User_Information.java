@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.util.List;
 
 @RestController
 @RequestMapping(value="info")
@@ -43,5 +44,9 @@ public class User_Information {
     @RequestMapping("getCropperImage")
     public ResponseEntity<Resource> getImageCropper() throws IOException {
         return informationService.getImageCropper();
+    }
+    @RequestMapping("getAllImage")
+    public ResponseEntity<List<String>> queryAllUserImage() throws IOException {
+        return informationService.queryAllUserImage();
     }
 }

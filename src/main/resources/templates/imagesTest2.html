@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fetch and Render JSON Example</title>
+</head>
+<body>
+<ul id="item-list"></ul>
+
+<script>
+    fetch('/info/getAllImage')
+        .then(response => response.json())
+        .then(data => {
+            // 遍历JSON数据
+            data.items.forEach(item => {
+                // 创建新的li元素
+                const li = document.createElement('li');
+                li.textContent = item.name;
+
+                // 将li元素添加到ul中
+                document.getElementById('item-list').appendChild(li);
+            });
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+</script>
+</body>
+</html>

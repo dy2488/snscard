@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<head>
+    <title>showImages</title>
+</head>
+<body>
+<div id="images"></div>
+
+<script>
+    fetch('/info/getAllImage')
+        .then(response => response.json())
+        .then(imagePaths => {
+            const imagesContainer = document.getElementById('images');
+            imagePaths.forEach(imagePath => {
+                const img = document.createElement('img');
+                img.src = imagePath;
+                img.alt = 'Image';
+                imagesContainer.appendChild(img);
+            });
+        })
+        .catch(error => {
+            console.error('Error fetching image paths:', error);
+        });
+</script>
+</body>

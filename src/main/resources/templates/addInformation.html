@@ -14,49 +14,8 @@
             margin-bottom: 20px;
         }
     </style>
-    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 </head>
 <body>
-<script>
-    import axios from "axios";
-
-    let button=document.getElementById("myButton")
-    function myButton(){
-
-        let username=document.getElementById('username').value
-        let name_us=document.getElementById('name_us').value
-        let tel=document.getElementById('tel').value
-        let address=document.getElementById('address').value
-        let vocation=document.getElementById('vocation').value
-        let company=document.getElementById('company').value
-        let email=document.getElementById('email').value
-        let introduction=document.getElementById('introduction').value
-
-        let user={}
-        user.username=username
-        user.name_us=name_us
-        user.tel=tel
-        user.address=address
-        user.vocation=vocation
-        user.company=company
-        user.company=company
-        user.email=email
-        user.introduction=introduction
-
-        axios({
-            method:'POST',
-            url: '/info/addInfo',
-            data: {
-                user
-            }
-        });
-
-    }
-    button.addEventListener('click',myButton)
-
-
-
-</script>
 
 <div>
     <form action="info/addInfo">

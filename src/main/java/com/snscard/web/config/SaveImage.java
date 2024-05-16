@@ -14,7 +14,7 @@ public class SaveImage {
     private String image;
 
 
-    public void save(String imageUrl,String imageName) throws IOException {
+    public void save(String imageUrl,String imageName,String path,String suffix) throws IOException {
         JSONObject jsonObject = new JSONObject(imageUrl);
         JSONArray data = jsonObject.getJSONArray("data");
         for(int i=0;i<data.length();i++){
@@ -24,11 +24,9 @@ public class SaveImage {
         URL url = new URL(image);
         URLConnection urlConnection = url.openConnection();
         InputStream inputStream = urlConnection.getInputStream();
-        String path = "D:/";
-        Path path1 = Paths.get(path, imageName+".png");
+        Path path1 = Paths.get(path, imageName+suffix);
         Files.copy(inputStream, path1);
         inputStream.close();
-        System.out.println("save successfully");
     }
 
 }

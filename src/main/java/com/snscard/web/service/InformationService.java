@@ -1,11 +1,14 @@
 package com.snscard.web.service;
 
+import com.snscard.web.pojo.User_Information;
 import com.snscard.web.utils.Result_Image;
 import com.snscard.web.utils.Result_Information;
 import org.springframework.core.io.Resource;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.MultiValueMap;
 
 import java.io.IOException;
+import java.util.List;
 
 public interface InformationService {
     Result_Information getInformation(String id);
@@ -14,5 +17,7 @@ public interface InformationService {
     ResponseEntity<Resource> getUserImage() throws IOException;
     Result_Image CropperImage(int x1, int y1, int x3, int y3) throws IOException;
     ResponseEntity<Resource> getImageCropper() throws IOException;
+    ResponseEntity<List<String>> queryAllUserImage() throws IOException;
+    Result_Information updateUserInformation(String username,String name_us,String tel,String address,String vocation,String company,String email,String introduction);
 }
 

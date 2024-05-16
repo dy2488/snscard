@@ -4,16 +4,29 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.snscard.web.mapper.InformationMapper">
     <select id="queryUserInformation" resultType="com.snscard.web.pojo.User_Information">
-        select u.name,u.username,u.name_us,u.tel,u.address,u.vocation,u.company,u.email,u.introduction,p.image_path as image_path from user_information u join path p on p.name=u.name where u.name=#{name};
+        select name,username,name_us,tel,address,vocation,company,email,introduction from user_information where name=#{name};
     </select>
     <insert id="insertUserInformation" parameterType="com.snscard.web.pojo.User_Information">
         insert into user_information values (#{name},#{username},#{name_us},#{tel},#{address},#{vocation},#{company},#{email},#{introduction});
     </insert>
+    <update id="updateUserInformation" parameterType="com.snscard.web.pojo.User_Information">
+        update user_information set username=#{username},name_us=#{name_us},tel=#{tel},address=#{address},vocation=#{vocation},company=#{company},email=#{email},introduction=#{introduction} where name=#{name}
+    </update>
     <insert id="insertUserPath" parameterType="String">
-        insert into path(id,name,image_path) values (#{id},#{name},#{image_path});
+        insert into path(id,name,image_all_name) values (#{id},#{name},#{image_all_name});
+    </insert>
+    <insert id="insertUserCropPath" parameterType="String">
+        insert into crop_path(id,name,image_all_name) values (#{id},#{name},#{image_all_name});
     </insert>
     <insert id="insertUserAnswer" parameterType="String">
         insert into user_answer(id,name, a1, a2, a3, a4, a5) values (#{id},#{name},#{a1},#{a2},#{a3},#{a4},#{a5});
     </insert>
+    <parameterMap id="image" type="com.snscard.web.pojo.UserImage">
+        <parameter property="name" javaType="String"/>
+        <parameter property="pageNum" javaType="int"/>
+    </parameterMap>
+    <select id="queryAllUserImage" parameterMap="image" resultType="String">
+        select image_all_name from path  where name=#{name} LIMIT #{pageNum}, 10;
+    </select>
 
 </mapper>
