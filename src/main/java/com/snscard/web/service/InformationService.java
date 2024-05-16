@@ -17,7 +17,7 @@ public interface InformationService {
     ResponseEntity<Resource> getUserImage() throws IOException;
     Result_Image CropperImage(int x1, int y1, int x3, int y3) throws IOException;
     ResponseEntity<Resource> getImageCropper() throws IOException;
-    ResponseEntity<List<String>> queryAllUserImage() throws IOException;
-    Result_Information updateUserInformation(String username,String name_us,String tel,String address,String vocation,String company,String email,String introduction);
+    ResponseEntity<List<String>> queryAllUserImage(int number) throws IOException;
+    ResponseEntity<List<String>> queryAllUserCropperImage(int number) throws IOException;
 }
 

@@ -1,5 +1,4 @@
 package com.snscard.web.service;
-
 import com.snscard.web.DalleAPI.Generate_Image;
 import com.snscard.web.config.ImageCropper;
 import com.snscard.web.config.SaveImage;
@@ -45,7 +44,9 @@ public class InformationServiceImpl implements InformationService{
         String  name = (String)currentUser.getSession().getAttribute("username");
         User_Information userInformation1 = informationMapper.queryUserInformation(name);
         if(userInformation1!=null){
-            return new Result_Information(5002,"사용자 정보를 이미 추가했습니다.사용자정보수정한 페이지를 이동해수세요",null);
+            User_Information updateUserInformation = new User_Information(name, username, name_us, tel, address, vocation, company, email, introduction);
+            informationMapper.updateUserInformation(updateUserInformation);
+            return new Result_Information(5002,"사용자 정보를 수정되었습니다",updateUserInformation);
         }
         else {
             User_Information userInformation = new User_Information(name, username, name_us, tel, address, vocation, company, email, introduction);
@@ -86,11 +87,11 @@ public class InformationServiceImpl implements InformationService{
     }
 
     @Override
-    public  ResponseEntity<List<String>> queryAllUserImage() throws IOException {
+    public  ResponseEntity<List<String>> queryAllUserImage(int number) throws IOException {
         Subject subject = SecurityUtils.getSubject();
         String username = (String)subject.getSession().getAttribute("username");
 //        pageNum=1;
-        UserImage userImage = new UserImage(username,0);
+        UserImage userImage = new UserImage(username,number);
         List<String> userImagesPath = informationMapper.queryAllUserImage(userImage);
         List<String> list = new ArrayList<>();
         String localPath;
@@ -102,12 +103,19 @@ public class InformationServiceImpl implements InformationService{
     }
 
     @Override
-    public Result_Information updateUserInformation(String username,String name_us,String tel,String address,String vocation,String company,String email,String introduction) {
+    public ResponseEntity<List<String>> queryAllUserCropperImage(int number) throws IOException {
         Subject subject = SecurityUtils.getSubject();
-        String name= (String) subject.getSession().getAttribute("username");
-        User_Information userInformation = new User_Information(name, username, name_us, tel, address, vocation, company, email, introduction);
-        informationMapper.updateUserInformation(userInformation);
-        return new Result_Information(5009,"사용자 정보 수정되었습니다",userInformation);
+        String username = (String)subject.getSession().getAttribute("username");
+        UserImage userImage = new UserImage(username,number);
+        List<String> userImagesPath = informationMapper.queryAllUserCropperImage(userImage);
+        List<String> list = new ArrayList<>();
+        String localPath;
+        for (String path : userImagesPath) {
+            localPath="https://ourcards.top/modifyImages/"+path;
+            list.add(localPath);
+        }
+        return new UploadUserImages().uploadUserImages(list);
+
     }
 
 

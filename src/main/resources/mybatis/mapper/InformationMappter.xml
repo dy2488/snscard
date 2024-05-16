@@ -10,7 +10,7 @@
         insert into user_information values (#{name},#{username},#{name_us},#{tel},#{address},#{vocation},#{company},#{email},#{introduction});
     </insert>
     <update id="updateUserInformation" parameterType="com.snscard.web.pojo.User_Information">
-        update user_information set username=#{username},name_us=#{name_us},tel=#{tel},address=#{address},vocation=#{vocation},company=#{company},email=#{email},introduction=#{introduction} where name=#{name}
+        update user_information set name=#{name} ,username=#{username},name_us=#{name_us},tel=#{tel},address=#{address},vocation=#{vocation},company=#{company},email=#{email},introduction=#{introduction} where name=#{name}
     </update>
     <insert id="insertUserPath" parameterType="String">
         insert into path(id,name,image_all_name) values (#{id},#{name},#{image_all_name});
@@ -27,6 +27,9 @@
     </parameterMap>
     <select id="queryAllUserImage" parameterMap="image" resultType="String">
         select image_all_name from path  where name=#{name} LIMIT #{pageNum}, 10;
+    </select>
+    <select id="queryAllUserCropperImage" parameterMap="image" resultType="String">
+        select image_all_name from crop_path where name=#{name} LIMIT #{pageNum}, 10;
     </select>
 
 </mapper>
