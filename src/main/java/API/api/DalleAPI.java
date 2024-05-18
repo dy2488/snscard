@@ -6,6 +6,7 @@ import java.net.http.HttpResponse;
 import java.util.Random;
 import java.util.HashMap;
 import java.util.Map;
+import java.math.*;
 
 import API.util.AnswerMapper;
 import com.deepl.api.DeepLException;
@@ -26,23 +27,31 @@ public class DalleAPI //이미지생성 AI 관련 클래스 입니다. 기본적
     }
     private String generatePrompt(String q1,String q2,String q3,String q4, String q5, int algorithmFlag, String authKey) throws DeepLException, InterruptedException {
         AnswerMapper answermapper = new AnswerMapper(authKey);
-        String revisedQ1 = answermapper.getRevisedAnswer(q1,1);
-        String revisedQ2 = answermapper.getRevisedAnswer(q2,2);
-        String art = answermapper.getRevisedAnswer(q3,3);
-        String tone = answermapper.getRevisedAnswer(q4,4);
-        String object = answermapper.getRevisedAnswer(q5,5);// 번역
+        int revisedQ1 = answermapper.getRevisedWeight(q1,1);
+        int revisedQ2 = answermapper.getRevisedWeight(q2,2);
+        int revisedQ3 = answermapper.getRevisedWeight(q3,3);
+        String revisedQ4 = answermapper.getRevisedAnswer(q4,4);
+        String revisedQ5 = answermapper.getRevisedAnswer(q5,5);// 번역
+
+        selectPrompt(revisedQ1,revisedQ2,revisedQ3);
+
+
 
         String prompt;
-        String texture = randomTexture();
-        String shape = randomShape();
-        String style = revisedQ1 + " " + revisedQ2;
+        /*
         switch(algorithmFlag)
         {
             case 1: prompt = "a flat " + art + " depicting " + texture + " textures that features " + tone + " using a " + style + " " + shape +" with emphasis on " + object + "."; break;
+            case 2: prompt = "A line art image of a [{새}] silhouette, isolated on a soft {pastel tones} background. The silhouette is elegantly and simply drawn, emphasizing the graceful contours of the subjects's figure. The background's {pastel tones} are muted and harmonious, providing a gentle contrast to the crisp line art of the silhouette. This artwork is minimalist and stylish, focusing on the beauty of simplicity and the elegance of the subject's form."; break;
+            case 3: prompt = "a flat " + art + " depicting " + texture + " textures that features " + tone + " using a " + style + " " + shape +" with emphasis on " + object + "."; break;
             default : prompt = "";
-        }//style,texture,tone
-        System.out.println(prompt);
-        return prompt;
+        }//style,texture,tone*/
+        return prompt="";
+    }
+
+    private String selectPrompt(int q1,int q2, int q3)
+    {
+        return "";
     }
 
     private String randomTexture()
