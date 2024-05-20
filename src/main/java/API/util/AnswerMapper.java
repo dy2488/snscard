@@ -53,7 +53,6 @@ public class AnswerMapper
     }
     public String getRevisedAnswer(String answer, int questionNumber) throws DeepLException, InterruptedException {
         String revisedAnswer;
-        int revisedWeight;
         switch (questionNumber)
         {
             case 4 : revisedAnswer = q4Map.get(answer); break;
