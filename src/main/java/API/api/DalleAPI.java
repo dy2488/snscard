@@ -6,6 +6,7 @@ import java.net.http.HttpResponse;
 import java.util.Random;
 import java.util.HashMap;
 import java.util.Map;
+import java.math.*;
 
 import API.util.AnswerMapper;
 import com.deepl.api.DeepLException;
@@ -19,30 +20,119 @@ public class DalleAPI //이미지생성 AI 관련 클래스 입니다. 기본적
     public String getDalleAPI(String q1,String q2,String q3,String q4, String q5, String apiKey,String authKey) throws Exception //prompt를 입력하여 호출하면, 해당 프롬프트 대로 이미지를 생성후, 이미지 URL을 반환하는 함수
     {
         String prompt,imgUrl;
-        int algorithmFlag=1;
-        prompt = generatePrompt(q1,q2,q3,q4,q5,algorithmFlag,authKey);
+        prompt = generatePrompt(q1,q2,q3,q4,q5,authKey);
         imgUrl = requestHttp(prompt,apiKey);
         return imgUrl;
     }
-    private String generatePrompt(String q1,String q2,String q3,String q4, String q5, int algorithmFlag, String authKey) throws DeepLException, InterruptedException {
+    private String generatePrompt(String q1,String q2,String q3,String q4, String q5, String authKey) throws DeepLException, InterruptedException {
         AnswerMapper answermapper = new AnswerMapper(authKey);
-        String revisedQ1 = answermapper.getRevisedAnswer(q1,1);
-        String revisedQ2 = answermapper.getRevisedAnswer(q2,2);
-        String art = answermapper.getRevisedAnswer(q3,3);
-        String tone = answermapper.getRevisedAnswer(q4,4);
-        String object = answermapper.getRevisedAnswer(q5,5);// 번역
+        int revisedQ1 = answermapper.getRevisedWeight(q1,1);
+        int revisedQ2 = answermapper.getRevisedWeight(q2,2);
+        int revisedQ3 = answermapper.getRevisedWeight(q3,3);
+        String revisedQ4 = answermapper.getRevisedAnswer(q4,4);
+        String revisedQ5 = answermapper.getRevisedAnswer(q5,5);// 번역
 
-        String prompt;
-        String texture = randomTexture();
-        String shape = randomShape();
-        String style = revisedQ1 + " " + revisedQ2;
-        switch(algorithmFlag)
+        int promptSetNumber = selectPromptSetNumber(revisedQ1,revisedQ2,revisedQ3);
+        String prompt,defaultPrompt;
+        int promptNumber;
+        Random random = new Random();
+        defaultPrompt = "A line art image of a [{object}] silhouette, isolated on a soft {tones} background. The silhouette is elegantly and simply drawn, emphasizing the graceful contours of the subjects's figure. The background's {pastel tones} are muted and harmonious, providing a gentle contrast to the crisp line art of the silhouette. This artwork is minimalist and stylish, focusing on the beauty of simplicity and the elegance of the subject's form.";
+        switch(promptSetNumber)
         {
-            case 1: prompt = "a flat " + art + " depicting " + texture + " textures that features " + tone + " using a " + style + " " + shape +" with emphasis on " + object + "."; break;
-            default : prompt = "";
+            case 1:
+            {
+                promptNumber = random.nextInt(1) + 1;
+                if(promptNumber==1){
+                    prompt = "A line art image of a [{object}] silhouette, isolated on a soft {tones} background. The silhouette is elegantly and simply drawn, emphasizing the graceful contours of the subjects's figure. The background's {pastel tones} are muted and harmonious, providing a gentle contrast to the crisp line art of the silhouette. This artwork is minimalist and stylish, focusing on the beauty of simplicity and the elegance of the subject's form.";
+                }
+                else
+                {
+                    prompt=defaultPrompt;
+                }
+                break;
+            }
+            case 2:
+            {
+                promptNumber = random.nextInt(1) + 1;
+                if(promptNumber==1){
+                    prompt = "a flat vector illustration depicting smooth stone textures that features {tones} using a simple modern style with emphasis on {object}.";
+                }
+                else
+                {
+                    prompt=defaultPrompt;
+                }
+                break;
+            }
+            case 3:
+            {
+                promptNumber = random.nextInt(1) + 1;
+                if(promptNumber==1){
+                    prompt = "a flat vector illustration depicting smooth stone textures that features {tones} using a simple modern style with emphasis on {object}.";
+                }
+                else
+                {
+                    prompt=defaultPrompt;
+                }
+                break;
+            }
+            case 4:
+            {
+                promptNumber = random.nextInt(1) + 1;
+                if(promptNumber==1){
+                    prompt = "a flat vector illustration depicting sandy beach that features {tones} using a modern style minimalistic with no specific border with emphasis on {object}.";
+                }
+                else
+                {
+                    prompt=defaultPrompt;
+                }
+                break;
+            }
+            case 5:
+            {
+                promptNumber = random.nextInt(1) + 1;
+                if(promptNumber==1){
+                    prompt = "a flat abstract art depicting sandy beach textures that features {tones} using a minimalist modern style with no specific border with emphasis on {object}.";
+                }
+                else
+                {
+                    prompt=defaultPrompt;
+                }
+                break;
+            }
+            default :{
+                prompt = "";
+            }
         }//style,texture,tone
+        prompt = prompt.replace("{tones}",revisedQ4);
+        prompt = prompt.replace("{object}",revisedQ5);
         System.out.println(prompt);
         return prompt;
+    }
+
+    private String selectPrompt(String tones, String object)
+    {
+        return "";
+    }
+
+
+    private int selectPromptSetNumber(int revisedQ1,int revisedQ2, int revisedQ3)
+    {
+        int averageWeight = (revisedQ1 + revisedQ2 + revisedQ3)/3;
+
+        Random random = new Random();
+        int promptSetNumber;
+        if(averageWeight == 1)
+        {
+            promptSetNumber = random.nextInt(2) + 1;
+        }
+        else if (averageWeight == 5) {
+            promptSetNumber = random.nextInt(2) + 4;
+        }
+        else
+        {
+            promptSetNumber = random.nextInt(3) + (averageWeight-1);
+        }
+        return promptSetNumber;
     }
 
     private String randomTexture()
