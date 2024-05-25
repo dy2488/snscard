@@ -2,6 +2,7 @@ package API;
 
 import API.api.DalleAPI;
 import API.api.GithubAPI;
+import API.api.NaverAPI;
 import API.dto.Post;
 
 import java.util.List;
@@ -12,14 +13,15 @@ public class TestAPI
         //Dalle test
         /*
         String imgUrl,q1,q2,q3,q4,q5; //q1..은 아무거나 막 적은거라 실제로 들어갈 답변이랑은 매우 다릅니다
-        q1="네트워킹 행사"; // q1답변
+        q1="비지니스 미팅"; // q1답변
         q2="전문적이고 신뢰할 수 있는 인상"; //q2 답변
-        q3="추상 미술"; //q3 답변
+        q3="간단한 스타일"; //q3 답변
         q4="옅은 톤"; //q4 답변
-        q5="강아지"; //q5 답변
+        q5="고양이"; //q5 답변
         DalleAPI d = new DalleAPI();
-        imgUrl = d.getDalleAPI(q1,q2,q3,q4,q5,openai,deepl);
+        imgUrl = d.getDalleAPI(q1,q2,q3,q4,q5,openai apikey,translate apikey);
         System.out.println(imgUrl);
+         */
 
         /*
         //깃허브 최근 업데이트된 프로젝트 3개의 제목,업데이트일자 가져오기   //관련 클래스 : GithubAPI
@@ -36,5 +38,9 @@ public class TestAPI
         */
 
 
+        //네이버블로그 RSS API 테스트
+        NaverAPI n = new NaverAPI();
+        List<Post> temp = n.getNaverAPI("https://blog.naver.com/onlyyour486");
+        System.out.println(temp);
     }
 }

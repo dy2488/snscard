@@ -7,6 +7,10 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 public class NaverAPI
 {
@@ -50,8 +54,19 @@ public class NaverAPI
                     // <title> 요소와 <pubDate> 요소를 가져오기
                     String title = itemElement.getElementsByTagName("title").item(0).getTextContent();
                     String pubDate = itemElement.getElementsByTagName("pubDate").item(0).getTextContent();
-                    int date = 1;
-                    postList.add(new Post(title,date));
+                    SimpleDateFormat originalFormat = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss Z", Locale.ENGLISH);
+                    SimpleDateFormat targetFormat = new SimpleDateFormat("yyyyMMdd");
+                    int finalDate;
+                    try {
+                        Date date = originalFormat.parse(pubDate);
+                        String formattedDate = targetFormat.format(date);
+                        finalDate = Integer.parseInt(formattedDate);
+                        System.out.println(finalDate);
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                        finalDate = 0;
+                    }
+                    postList.add(new Post(title,finalDate));
                 }
             }
             return postList;
