@@ -21,15 +21,15 @@ public class NaverAPI
         String userName = u.parseUrl(sourceUrl,1); //받은 URL에서 사용자 정보 획득 (주어진 URL의 첫번째 영역 가져옴)
         String requestUrl = NaverUrl + userName +".xml"; //요청 URL 제작
         Document response = requestRss(requestUrl); //요청
-        System.out.println(response.getDoctype());
+        System.out.println(response);
         List<Post> result = new ArrayList<>();
-        if(response.getDoctype()==null)
+        if(response==null)
         {
             System.out.println("1");
             result.add(new Post("no post",0));
 
         }
-        else if (response.getDoctype()!=null)
+        else if (response!=null)
         {
             System.out.println("2");
             result = parseNaverRss(response);
@@ -59,8 +59,12 @@ public class NaverAPI
             List<Post> postList = new ArrayList<>();
             for (int i = 0; i < 1; i++) {
                 Node itemNode = itemList.item(i);
-
-                if (itemNode.getNodeType() == Node.ELEMENT_NODE) {
+                if(itemNode==null)
+                {
+                    postList.add(new Post("no post",0));
+                }
+                else if (itemNode.getNodeType() == Node.ELEMENT_NODE)
+                {
                     Element itemElement = (Element) itemNode;
 
                     // <title> 요소와 <pubDate> 요소를 가져오기
@@ -73,13 +77,11 @@ public class NaverAPI
                         Date date = originalFormat.parse(pubDate);
                         String formattedDate = targetFormat.format(date);
                         finalDate = Integer.parseInt(formattedDate);
-                        System.out.println(finalDate);
+                        postList.add(new Post(title,finalDate));
                     } catch (ParseException e) {
                         e.printStackTrace();
-                        finalDate = 0;
-                        title = "no post";
+                        postList.add(new Post("no post",0));
                     }
-                    postList.add(new Post(title,finalDate));
                 }
             }
             return postList;

@@ -41,12 +41,12 @@ public class TestAPI
 
         //네이버블로그 RSS API 테스트 //에러일시 [(title: no post, date: 0, imgUrl: null)] 형태로 반환
         NaverAPI n = new NaverAPI();
-        List<Post> temp = n.getNaverAPI("https://blog.naver.com/onlyyour486s");
+        List<Post> temp = n.getNaverAPI("https://blog.naver.com/onlyyour486");
         System.out.println(temp);
 
         //티스토리블로그 RSS API 테스트 //에러일시 [(title: no post, date: 0, imgUrl: null)] 형태로 반환
         TistoryAPI t = new TistoryAPI();
-        List<Post> temps = t.getTistoryAPI("https://holikas.tistory.com/");
+        List<Post> temps = t.getTistoryAPI("https://holika.tistory.com/");
         System.out.println(temps);
     }
 }

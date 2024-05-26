@@ -60,12 +60,11 @@ public class TistoryAPI
                     Date date = originalFormat.parse(pubDate);
                     String formattedDate = targetFormat.format(date);
                     finalDate = Integer.parseInt(formattedDate);
+                    postList.add(new Post(title,finalDate));
                 } catch (ParseException e) {
                     e.printStackTrace();
-                    finalDate = 0;
-                    title = "no post";
+                    postList.add(new Post("no post",0));
                 }
-                postList.add(new Post(title,finalDate));
             }
         }
         return postList;
