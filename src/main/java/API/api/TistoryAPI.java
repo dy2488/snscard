@@ -22,17 +22,25 @@ public class TistoryAPI
         String userId = "";
         try {
             userId = extractUserId(sourceUrl);
-            System.out.println("Extracted userId: " + userId);
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
         String requestUrl = TistoryUrl.replace("{userid}",userId); //요청 URL 제작
         Document response = requestRss(requestUrl); //요청
-        List<Post> result = parseTistoryRss(response);
+        List<Post> result = new ArrayList<>();
+        System.out.println(response==null);
+        if(response==null)
+        {
+            result.add(new Post("no post",0));
+        }
+        else if (response.getDocumentElement()!=null)
+        {
+            result = parseTistoryRss(response);
+        }
         return result;
     }
 
-    private List<Post> parseTistoryRss(Document doc)
+    private List<Post> parseTistoryRss(Document doc) throws Exception
     {
         NodeList itemList = doc.getElementsByTagName("item");
         List<Post> postList = new ArrayList<>();
@@ -52,10 +60,10 @@ public class TistoryAPI
                     Date date = originalFormat.parse(pubDate);
                     String formattedDate = targetFormat.format(date);
                     finalDate = Integer.parseInt(formattedDate);
-                    System.out.println(finalDate);
                 } catch (ParseException e) {
                     e.printStackTrace();
                     finalDate = 0;
+                    title = "no post";
                 }
                 postList.add(new Post(title,finalDate));
             }

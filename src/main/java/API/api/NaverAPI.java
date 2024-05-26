@@ -21,7 +21,19 @@ public class NaverAPI
         String userName = u.parseUrl(sourceUrl,1); //받은 URL에서 사용자 정보 획득 (주어진 URL의 첫번째 영역 가져옴)
         String requestUrl = NaverUrl + userName +".xml"; //요청 URL 제작
         Document response = requestRss(requestUrl); //요청
-        List<Post> result = parseNaverRss(response);
+        System.out.println(response.getDoctype());
+        List<Post> result = new ArrayList<>();
+        if(response.getDoctype()==null)
+        {
+            System.out.println("1");
+            result.add(new Post("no post",0));
+
+        }
+        else if (response.getDoctype()!=null)
+        {
+            System.out.println("2");
+            result = parseNaverRss(response);
+        }
         return result;
     }
 
@@ -65,6 +77,7 @@ public class NaverAPI
                     } catch (ParseException e) {
                         e.printStackTrace();
                         finalDate = 0;
+                        title = "no post";
                     }
                     postList.add(new Post(title,finalDate));
                 }
