@@ -14,9 +14,10 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Collections;
 
+
 public class GithubAPI
 {
-    private static final String Github_Url = "https://api.github.com/users/";
+    private static final String GithubUrl = "https://api.github.com/users/";
     public GithubAPI()
     {
     }
@@ -24,7 +25,7 @@ public class GithubAPI
     {
         UrlParser u = new UrlParser();
         String userName = u.parseUrl(sourceUrl,1); //받은 URL에서 사용자 정보 획득 (주어진 URL의 첫번째 영역 가져옴)
-        String requestUrl = Github_Url + userName +"/repos"; //요청 URL 제작
+        String requestUrl = GithubUrl + userName +"/repos"; //요청 URL 제작
         String response = requestHttp(requestUrl); //요청
         List<Post> result = parseGithubJson(response);
         return result;
