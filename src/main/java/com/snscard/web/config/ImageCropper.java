@@ -7,7 +7,6 @@ import org.apache.shiro.SecurityUtils;
 import org.springframework.context.annotation.Bean;
 
 import javax.imageio.ImageIO;
-import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 
@@ -27,7 +26,7 @@ public class ImageCropper {
         try{
             BufferedImage originalImage = ImageIO.read(new File(path));
             BufferedImage croppedImage = originalImage.getSubimage(x1,y1,x3-x1,y3-y1);
-            String cropperImagePath="/root/img/modifyImages/"+imageAllName+".png";
+            String cropperImagePath="/root/img/modifyImages/"+imageAllName;
             SecurityUtils.getSubject().getSession().setAttribute("cropperImagePath",cropperImagePath);
             ImageIO.write(croppedImage, "png", new File(cropperImagePath));
 

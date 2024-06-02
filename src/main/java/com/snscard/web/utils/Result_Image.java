@@ -9,5 +9,5 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Result_Image {
     private int code;
-    private String msg;
+    private String url;
 }

@@ -65,6 +65,7 @@ public class InformationServiceImpl implements InformationService{
             Subject subject = SecurityUtils.getSubject();
         String rootPath= (String)subject.getSession().getAttribute("rootPath");
         return new UploadImage().getImage(rootPath);
+
     }
 
     @Override
@@ -76,7 +77,7 @@ public class InformationServiceImpl implements InformationService{
         new ImageCropper(x1,y1,x3,y3,path,name,imageAllName).imageCropper();
         String uuid= (String)subject.getSession().getAttribute("uuid");
         informationMapper.insertUserCropPath(uuid,name,imageAllName);
-        return new Result_Image(6002,"수정되었습니다.");
+        return new Result_Image(6002,"https://ourcards.top/modifyImages/"+imageAllName);
     }
 
     @Override
@@ -125,7 +126,6 @@ public class InformationServiceImpl implements InformationService{
         String uuid= UUID.randomUUID().toString();
         String username = (String) subject.getSession().getAttribute("username");
         String imageName=uuid+username;
-        try{
             subject.getSession().setAttribute("image",imageName);
             String suffix=".png";
             String imageAllName=imageName+suffix;
@@ -133,16 +133,17 @@ public class InformationServiceImpl implements InformationService{
             subject.getSession().setAttribute("uuid",uuid);
             String path="/root/img/generatedImages/";
             subject.getSession().setAttribute("rootPath",path+imageAllName);
+        try {
             String image = new Generate_Image().getImage(a1, a2, a3, a4, a5);
             new SaveImage().save(image,imageName,path,suffix);
+        } catch (Exception e) {
+            return new Result_Image(6004,"");
+        }
             informationMapper.insertUserAnswer(uuid,username,a1,a2,a3,a4,a5);
             informationMapper.insertUserPath(uuid,username,imageAllName);
 
-        }catch (Exception e) {
-            new Result_Image(6004,"오류가 발생했습니다.");
-        }
 //        new ImageResizer().getImage(path);
-        return new Result_Image(6001,"이미지 생성되었습니다.");
+        return new Result_Image(6001,"https://ourcards.top/generatedImages/"+imageAllName);
     }
 
 }

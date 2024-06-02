@@ -11,9 +11,9 @@ public interface InformationMapper {
     User_Information queryUserInformation(String name);
     void insertUserInformation(User_Information user_information);
     void updateUserInformation(User_Information user_information);
-    void insertUserPath(String id,String name, String image_all_name);
-    void insertUserAnswer(String id,String name,String a1,String a2,String a3,String a4,String a5);
+    void insertUserPath(String uuid,String name, String image_all_name);
+    void insertUserAnswer(String uuid,String name,String a1,String a2,String a3,String a4,String a5);
     List<String> queryAllUserImage(UserImage user_image);
-    void insertUserCropPath(String id,String name,String image_all_name);
+    void insertUserCropPath(String uuid,String name,String image_all_name);
     List<String> queryAllUserCropperImage(UserImage user_image);
 }
