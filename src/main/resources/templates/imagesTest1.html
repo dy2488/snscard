@@ -6,7 +6,7 @@
 <div id="images"></div>
 
 <script>
-    fetch('/info/getAllImage')
+    fetch('/info/getAllImage?number=0')
         .then(response => response.json())
         .then(imagePaths => {
             const imagesContainer = document.getElementById('images');

@@ -8,7 +8,7 @@
     </select>
 
     <insert id="addUser" parameterType="string">
-        insert into users values(#{name},#{password})
+        insert into users(name, password) values(#{name},#{password})
     </insert>
     <delete id="deleteUser" parameterType="string">
         delete from users where name=#{name}
@@ -20,6 +20,6 @@
             select salt from pass_hash_salt where name=#{name}
     </select>
     <insert id="setSalt" parameterType="String">
-        insert into pass_hash_salt values(#{name},#{salt})
+        insert into pass_hash_salt(name, salt) values(#{name},#{salt})
     </insert>
 </mapper>
