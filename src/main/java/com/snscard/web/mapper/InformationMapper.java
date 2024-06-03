@@ -16,4 +16,6 @@ public interface InformationMapper {
     List<String> queryAllUserImage(UserImage user_image);
     void insertUserCropPath(String uuid,String name,String image_all_name);
     List<String> queryAllUserCropperImage(UserImage user_image);
+    void insertUserUrl(String name,String github_url,String naver_url,String tistory_url);
+    void insertUserUrlInfo(String name,String title,String data);
 }

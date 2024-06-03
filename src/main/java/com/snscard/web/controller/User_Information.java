@@ -1,18 +1,20 @@
 package com.snscard.web.controller;
 
 import com.snscard.web.service.InformationService;
+import com.snscard.web.utils.GetImageList;
 import com.snscard.web.utils.Result_Image;
 import com.snscard.web.utils.Result_Information;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
-import java.util.List;
 
 @RestController
 @RequestMapping(value="info")
+@Controller
 public class User_Information {
     private final InformationService informationService;
 
@@ -46,11 +48,11 @@ public class User_Information {
         return informationService.getImageCropper();
     }
     @RequestMapping("getAllImage")
-    public ResponseEntity<List<String>> queryAllUserImage(int number) throws IOException {
+    public GetImageList queryAllUserImage(int number) throws IOException {
         return informationService.queryAllUserImage(number);
     }
     @RequestMapping("getAllCropperImage")
-    public ResponseEntity<List<String>> queryAllUserCropperImage(int number) throws IOException {
+    public GetImageList queryAllUserCropperImage(int number) throws IOException {
         return informationService.queryAllUserCropperImage(number);
     }
 }

@@ -13,4 +13,5 @@ public interface UserMapper {
     String getSalt(String name);
     void setSalt(String name,String salt);
 
+
 }

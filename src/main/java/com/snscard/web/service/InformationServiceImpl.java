@@ -7,8 +7,10 @@ import com.snscard.web.config.UploadUserImages;
 import com.snscard.web.mapper.InformationMapper;
 import com.snscard.web.pojo.UserImage;
 import com.snscard.web.pojo.User_Information;
+import com.snscard.web.utils.GetImageList;
 import com.snscard.web.utils.Result_Image;
 import com.snscard.web.utils.Result_Information;
+import com.snscard.web.utils.Result_Url;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -88,7 +90,7 @@ public class InformationServiceImpl implements InformationService{
     }
 
     @Override
-    public  ResponseEntity<List<String>> queryAllUserImage(int number) throws IOException {
+    public GetImageList queryAllUserImage(int number) throws IOException {
         Subject subject = SecurityUtils.getSubject();
         String username = (String)subject.getSession().getAttribute("username");
 //        pageNum=1;
@@ -100,11 +102,11 @@ public class InformationServiceImpl implements InformationService{
             localPath="https://ourcards.top/generatedImages/"+path;
             list.add(localPath);
         }
-        return new UploadUserImages().uploadUserImages(list);
+        return new GetImageList(7001,list);
     }
 
     @Override
-    public ResponseEntity<List<String>> queryAllUserCropperImage(int number) throws IOException {
+    public GetImageList queryAllUserCropperImage(int number) throws IOException {
         Subject subject = SecurityUtils.getSubject();
         String username = (String)subject.getSession().getAttribute("username");
         UserImage userImage = new UserImage(username,number);
@@ -115,8 +117,13 @@ public class InformationServiceImpl implements InformationService{
             localPath="https://ourcards.top/modifyImages/"+path;
             list.add(localPath);
         }
-        return new UploadUserImages().uploadUserImages(list);
+        return new GetImageList(7003,list);
 
+    }
+
+    @Override
+    public Result_Url addUserUrl(String github_url, String naver_url, String tistory_url) {
+        return null;
     }
 
 
