@@ -155,6 +155,13 @@ public class DalleAPI //이미지생성 AI 관련 클래스 입니다. 기본적
         return shapeList[index];
     }
 
+    public String testDalleAPI(String prompt, String apiKey) throws Exception //prompt를 입력하여 호출하면, 해당 프롬프트 대로 이미지를 생성후, 이미지 URL을 반환하는 함수
+    {
+        String imgUrl;
+        imgUrl = requestHttp(prompt,apiKey);
+        return imgUrl;
+    }
+
     private String requestHttp(String prompt, String apiKey) throws Exception
     {
         HttpClient client = HttpClient.newHttpClient();

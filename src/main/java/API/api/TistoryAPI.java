@@ -28,7 +28,6 @@ public class TistoryAPI
         String requestUrl = TistoryUrl.replace("{userid}",userId); //요청 URL 제작
         Document response = requestRss(requestUrl); //요청
         List<Post> result = new ArrayList<>();
-        System.out.println(response==null);
         if(response==null)
         {
             result.add(new Post("no post",0));
