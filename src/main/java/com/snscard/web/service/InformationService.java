@@ -1,8 +1,10 @@
 package com.snscard.web.service;
 
 import com.snscard.web.pojo.User_Information;
+import com.snscard.web.utils.GetImageList;
 import com.snscard.web.utils.Result_Image;
 import com.snscard.web.utils.Result_Information;
+import com.snscard.web.utils.Result_Url;
 import org.springframework.core.io.Resource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.MultiValueMap;
@@ -17,7 +19,8 @@ public interface InformationService {
     ResponseEntity<Resource> getUserImage() throws IOException;
     Result_Image CropperImage(int x1, int y1, int x3, int y3) throws IOException;
     ResponseEntity<Resource> getImageCropper() throws IOException;
-    ResponseEntity<List<String>> queryAllUserImage(int number) throws IOException;
-    ResponseEntity<List<String>> queryAllUserCropperImage(int number) throws IOException;
+    GetImageList queryAllUserImage(int number) throws IOException;
+    GetImageList queryAllUserCropperImage(int number) throws IOException;
+    Result_Url addUserUrl(String github_url, String naver_url, String tistory_url);
 }
 
