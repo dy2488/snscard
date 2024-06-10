@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserTittoryUrl {
+public class UserTistoryUrl {
     private String name;
     private String tistory_url;
     private int cardNum;

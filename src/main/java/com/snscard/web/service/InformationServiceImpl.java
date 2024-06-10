@@ -3,18 +3,18 @@ import API.dto.Post;
 import com.snscard.web.DalleAPI.Generate_Image;
 import com.snscard.web.GetGithub.GetGithubInfo;
 import com.snscard.web.GetNaver.GetNaverInfo;
-import com.snscard.web.GetTistory.GetTistoryInfo;
 import com.snscard.web.config.ImageCropper;
 import com.snscard.web.config.SaveImage;
 import com.snscard.web.config.UploadImage;
 import com.snscard.web.mapper.InformationMapper;
+import com.snscard.web.pojo.InsertUrlInfo;
 import com.snscard.web.pojo.UserGitHubUrl;
 import com.snscard.web.pojo.UserImage;
+import com.snscard.web.pojo.UserNaverUrl;
 import com.snscard.web.utils.*;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
 import org.jetbrains.annotations.NotNull;
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.ResponseEntity;
@@ -109,14 +109,21 @@ public class InformationServiceImpl implements InformationService {
             tistory_url = "";
         }
         try {
+            GetTitleDate githubInfo = new GetGithubInfo().getGithubInfo(github_url);
             String gitHubInfo = informationMapper.queryUserGithubInfo(cardNum);
             if (gitHubInfo == null) {
-                GetTitleDate githubInfo = new GetGithubInfo().getGithubInfo(github_url);
-                informationMapper.insertGitHubUrl(new UserGitHubUrl(username, github_url, cardNum));
 
+                informationMapper.insertGitHubUrl(new UserGitHubUrl(username, github_url, cardNum));
+                informationMapper.insertUserUrlInfo(new InsertUrlInfo(username,githubInfo.getTitle(),githubInfo.getDate(),cardNum));
+            }else{
+                informationMapper.modifyUserUrlInfo(new InsertUrlInfo(username,githubInfo.getTitle(),githubInfo.getDate(),cardNum));
             }
         } catch (Exception e) {
             return new Result_Url(5000, "조소 오류발생");
+        }
+        if(naver_url==null){
+            informationMapper.insertNaverUrl(new UserNaverUrl(username,naver_url,cardNum));
+            informationMapper.insertUserUrlInfo(new InsertUrlInfo());
         }
         return null;
     }

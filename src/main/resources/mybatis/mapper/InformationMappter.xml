@@ -34,9 +34,12 @@
     <insert id="insertTistoryUrl" parameterType="com.snscard.web.pojo.UserGitHubUrl">
         insert into user_url(name,tistory_url,cardNum) values (#{name},#{tistory_url},#{cardNum});
     </insert>
-    <insert id="insertUserUrlInfo" parameterType="String">
-        insert into user_url_info(name,title,data,cardNum) values(#{name},#{title},#{data},#{cardNum});
+    <insert id="insertUserUrlInfo" parameterType="com.snscard.web.pojo.InsertUrlInfo">
+        insert into user_url_info(name,title,date,cardNum) values(#{name},#{title},#{date},#{cardNum});
     </insert>
+    <update id="modifyUserUrlInfo" parameterType="com.snscard.web.pojo.InsertUrlInfo">
+        update user_url_info set title=#{title},date=#{date} where cardNum=#{cardNum} and name=#{name};
+    </update>
     <select id="queryUserGithubInfo" parameterType="int" resultType="String">
         select title from user_url_info where cardNum=#{cardNum};
     </select>

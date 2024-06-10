@@ -1,7 +1,6 @@
 package com.snscard.web.mapper;
 
-import com.snscard.web.pojo.UserImage;
-import com.snscard.web.pojo.UserGitHubUrl;
+import com.snscard.web.pojo.*;
 import com.snscard.web.utils.ResultInfoAndImage;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -18,10 +17,10 @@ public interface InformationMapper {
     List<String> queryAllUserCropperImage(UserImage user_image);
 
     void insertGitHubUrl(UserGitHubUrl userUrl);
-    void insertNaverUrl(UserGitHubUrl userUrl);
-    void insertTistoryUrl(UserGitHubUrl userUrl);
+    void insertNaverUrl(UserNaverUrl userUrl);
+    void insertTistoryUrl(UserTistoryUrl userUrl);
 
-    void insertUserUrlInfo(String name, String title, String data,int cardNum);
+    void insertUserUrlInfo(InsertUrlInfo insertUrlInfo);
 
     void insertImageCoordinate(String name, int cardNum, int x1, int y1, int x3, int y3);
 
@@ -32,4 +31,5 @@ public interface InformationMapper {
     void insertUserCropPath(String name, String imageAllName, int cardNum);
 
     String queryUserGithubInfo(int cardNum);
+    void modifyUserUrlInfo(InsertUrlInfo insertUrlInfo);
 }
