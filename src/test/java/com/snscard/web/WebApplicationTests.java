@@ -1,9 +1,11 @@
 package com.snscard.web;
 
-import API.api.NaverAPI;
 import API.api.TistoryAPI;
 import API.dto.Post;
-import com.snscard.web.github.GenerateGithubApi;
+import com.snscard.web.GetGithub.GetGithubInfo;
+import com.snscard.web.GetNaver.GetNaverInfo;
+import com.snscard.web.config.GetTitleAndDate;
+import com.snscard.web.utils.GetTitleDate;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -14,15 +16,19 @@ class WebApplicationTests {
 
     @Test
     void githubTest() throws Exception {
-        GenerateGithubApi generateGithubApi = new GenerateGithubApi();
-        List<Post> githubApiUrl = generateGithubApi.getGithubApiUrl();
-        System.out.println(githubApiUrl);
+        GetTitleDate githubInfo = new GetGithubInfo().getGithubInfo("https://github.com/dy2488/");
+        System.out.println(githubInfo);
     }
+
 
     @Test
     void NaverTest() throws Exception {
-        List<Post> naverAPI = new NaverAPI().getNaverAPI("https://blog.naver.com/springboot");
-        System.out.println(naverAPI);
+        List<Post> naverInfo = new GetNaverInfo().getNaverInfo("https://blog.naver.com/onlyyour486");
+        Post post = naverInfo.get(0);
+        String title = new GetTitleAndDate().extractValue(String.valueOf(post), "title");
+        String data = new GetTitleAndDate().extractValue(String.valueOf(post), "date");
+        System.out.println(title);
+        System.out.println(data);
     }
 
     @Test
