@@ -42,6 +42,10 @@ public class DalleAPI //이미지생성 AI 관련 클래스 입니다. 기본적
                 if(promptNumber==1){
                     prompt = "A line art image of a [{object}] silhouette, isolated on a soft {tones} background. The silhouette is elegantly and simply drawn, emphasizing the graceful contours of the subjects's figure. The background's {pastel tones} are muted and harmonious, providing a gentle contrast to the crisp line art of the silhouette. This artwork is minimalist and stylish, focusing on the beauty of simplicity and the elegance of the subject's form.";
                 }
+                else if(promptNumber==2)
+                {
+                    prompt = "a minimalist image focusing on a single {tones} background and a small, simple icon of a [{object}] positioned in the corner. The colors should be light and soothing, while the icon should be elegant and understated, implementing a simplistic design that emphasizes the beauty of feline form.";
+                }
                 else
                 {
                     prompt=defaultPrompt;
@@ -52,7 +56,11 @@ public class DalleAPI //이미지생성 AI 관련 클래스 입니다. 기본적
             {
                 promptNumber = random.nextInt(1) + 1;
                 if(promptNumber==1){
-                    prompt = "a flat vector illustration depicting smooth stone textures that features {tones} using a simple modern style with emphasis on {object}.";
+                    prompt = "a flat vector illustration depicting smooth stone textures that features {tones} using a simple modern style with emphasis on [{object}].";
+                }
+                else if(promptNumber==2)
+                {
+                    prompt = "A minimalistic flat line art design with abstract shapes and {tones}, with emphasis on [{object}]";
                 }
                 else
                 {
@@ -64,7 +72,7 @@ public class DalleAPI //이미지생성 AI 관련 클래스 입니다. 기본적
             {
                 promptNumber = random.nextInt(1) + 1;
                 if(promptNumber==1){
-                    prompt = "a flat vector illustration depicting smooth stone textures that features {tones} using a simple modern style with emphasis on {object}.";
+                    prompt = "a flat vector illustration depicting smooth stone textures that features {tones} using a simple modern style with emphasis on [{object}].";
                 }
                 else
                 {
@@ -76,7 +84,7 @@ public class DalleAPI //이미지생성 AI 관련 클래스 입니다. 기본적
             {
                 promptNumber = random.nextInt(1) + 1;
                 if(promptNumber==1){
-                    prompt = "a flat vector illustration depicting sandy beach that features {tones} using a modern style minimalistic with no specific border with emphasis on {object}.";
+                    prompt = "a flat vector illustration depicting sandy beach that features {tones} using a modern style minimalistic with no specific border with emphasis on [{object}].";
                 }
                 else
                 {
@@ -86,9 +94,13 @@ public class DalleAPI //이미지생성 AI 관련 클래스 입니다. 기본적
             }
             case 5:
             {
-                promptNumber = random.nextInt(1) + 1;
+                promptNumber = random.nextInt(2) + 1;
                 if(promptNumber==1){
                     prompt = "a flat abstract art depicting sandy beach textures that features {tones} using a minimalist modern style with no specific border with emphasis on {object}.";
+                }
+                else if(promptNumber==2)
+                {
+                    prompt="A flat watercolor-inspired background with abstract brush strokes in {tones}, with emphasis on {object}";
                 }
                 else
                 {
