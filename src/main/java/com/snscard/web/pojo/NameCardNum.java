@@ -7,9 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class InsertUrlInfo {
+public class NameCardNum {
     private String name;
-    private String title;
-    private String date;
     private int cardNum;
 }

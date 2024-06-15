@@ -9,6 +9,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class UserNaverUrl {
     private String name;
-    private String naver_url;
+    private String naver;
     private int cardNum;
 }

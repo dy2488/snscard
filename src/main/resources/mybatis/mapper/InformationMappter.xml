@@ -25,28 +25,62 @@
     <select id="queryAllUserCropperImage" parameterMap="image" resultType="String">
         select image_all_name from crop_path where name=#{name} LIMIT #{pageNum}, 10;
     </select>
-    <insert id="insertGitHubUrl" parameterType="String">
-        insert into user_url(name,github_url,cardNum) values (#{name},#{github_url},#{cardNum});
+    <insert id="insertGitHubUrl" parameterType="com.snscard.web.pojo.UserGitHubUrl">
+        insert into github_url(name,github,cardNum) values (#{name},#{github},cardNum)
     </insert>
     <insert id="insertNaverUrl" parameterType="com.snscard.web.pojo.UserGitHubUrl">
-        insert into user_url(name,naver_url,cardNum) values (#{name},#{naver_url},#{cardNum});
+        insert into naver_url(name,naver,cardNum) values (#{name},#{naver},cardNum)
     </insert>
     <insert id="insertTistoryUrl" parameterType="com.snscard.web.pojo.UserGitHubUrl">
-        insert into user_url(name,tistory_url,cardNum) values (#{name},#{tistory_url},#{cardNum});
+        insert into tistory_url(name,tistory,cardNum) values (#{name},#{tistory},cardNum)
     </insert>
-    <insert id="insertUserUrlInfo" parameterType="com.snscard.web.pojo.InsertUrlInfo">
-        insert into user_url_info(name,title,date,cardNum) values(#{name},#{title},#{date},#{cardNum});
+    <insert id="insertGithubInfo" parameterType="com.snscard.web.pojo.UserTitleDate">
+       insert into github_info(name,title,date,cardNum) values (#{name},#{title},#{date},#{cardNum})
     </insert>
-    <update id="modifyUserUrlInfo" parameterType="com.snscard.web.pojo.InsertUrlInfo">
-        update user_url_info set title=#{title},date=#{date} where cardNum=#{cardNum} and name=#{name};
+    <insert id="insertNaverInfo" parameterType="com.snscard.web.pojo.UserTitleDate">
+        insert into naver_info(name,title,date,cardNum) values (#{name},#{title},#{date},#{cardNum})
+    </insert>
+    <insert id="insertTistoryInfo" parameterType="com.snscard.web.pojo.UserTitleDate">
+        insert into tistory_info(name,title,date,cardNum) values (#{name},#{title},#{date},#{cardNum})
+    </insert>
+    <update id="updateGithubInfo" parameterType="com.snscard.web.pojo.UserTitleDate">
+        update github_info set title=#{title},date=#{date} where name=#{name} and cardNum=#{cardNum}
     </update>
-    <select id="queryUserGithubInfo" parameterType="int" resultType="String">
-        select title from user_url_info where cardNum=#{cardNum};
+    <update id="updateNaverInfo" parameterType="com.snscard.web.pojo.UserTitleDate">
+        update github_info set title=#{title},date=#{date} where name=#{name} and cardNum=#{cardNum}
+    </update>
+    <update id="updateTistoryInfo" parameterType="com.snscard.web.pojo.UserTitleDate">
+        update github_info set title=#{title},date=#{date} where name=#{name} and cardNum=#{cardNum}
+    </update>
+    <select id="querygithubInfo" parameterType="com.snscard.web.pojo.NameCardNum" resultType="com.snscard.web.utils.GetTitleDate">
+        select title,date from github_info where name=#{name} and cardNum=#{cardNum};
     </select>
-    <select id="queryUserNaverInfo" parameterType="int" resultType="String">
-        select title from user_url_info where cardNum=#{cardNum};
+    <select id="querynaverInfo" parameterType="com.snscard.web.pojo.NameCardNum" resultType="com.snscard.web.utils.GetTitleDate">
+        select title,date from naver_info where name=#{name} and cardNum=#{cardNum};
     </select>
-    <select id="queryUserTistoryInfo" parameterType="int" resultType="String">
-        select title from user_url_info where cardNum=#{cardNum};
+    <select id="querytistoryInfo" parameterType="com.snscard.web.pojo.NameCardNum" resultType="com.snscard.web.utils.GetTitleDate">
+        select title,date from tistory_info where name=#{name} and cardNum=#{cardNum};
     </select>
+    <select id="queryGithubUrl" parameterType="com.snscard.web.pojo.NameCardNum">
+        select github from github_url where name=#{name} and cardNum=#{cardNum}
+    </select>
+    <select id="queryNaverubUrl" parameterType="com.snscard.web.pojo.NameCardNum">
+        select naver from naver_url where name=#{name} and cardNum=#{cardNum}
+    </select>
+    <select id="queryTistoryUrl" parameterType="com.snscard.web.pojo.NameCardNum">
+        select tistory from tistory_url where name=#{name} and cardNum=#{cardNum}
+    </select>
+    <update id="updateGithubUrl" parameterType="com.snscard.web.pojo.UserGitHubUrl">
+        update github_url set github=#{github} where name=#{name} and cardNum=#{cardNum};
+    </update>
+    <update id="updateNaverUrl" parameterType="com.snscard.web.pojo.UserGitHubUrl">
+        update naver_url set naver=#{github} where name=#{name} and cardNum=#{cardNum};
+    </update>
+    <update id="updateTistoryUrl" parameterType="com.snscard.web.pojo.UserGitHubUrl">
+        update tistory_url set tistory=#{github} where name=#{name} and cardNum=#{cardNum};
+    </update>
+    <select id="querySampleUrl" parameterType="int" resultType="String">
+        select image_all_name from sample_path where number=#{number}
+    </select>
+
 </mapper>

@@ -9,6 +9,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class UserTistoryUrl {
     private String name;
-    private String tistory_url;
+    private String tistory;
     private int cardNum;
 }

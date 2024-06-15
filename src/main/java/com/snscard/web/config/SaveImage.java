@@ -11,17 +11,17 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 public class SaveImage {
-    private String image;
+//    private String image;
 
 
     public void save(String imageUrl,String imageName,String path,String suffix) throws IOException {
-        JSONObject jsonObject = new JSONObject(imageUrl);
-        JSONArray data = jsonObject.getJSONArray("data");
-        for(int i=0;i<data.length();i++){
-            JSONObject item= data.getJSONObject(i);
-            image= item.getString("url");
-        }
-        URL url = new URL(image);
+//        JSONObject jsonObject = new JSONObject(imageUrl);
+//        JSONArray data = jsonObject.getJSONArray("data");
+//        for(int i=0;i<data.length();i++){
+//            JSONObject item= data.getJSONObject(i);
+//            image= item.getString("url");
+//        }
+        URL url = new URL(imageUrl);
         URLConnection urlConnection = url.openConnection();
         InputStream inputStream = urlConnection.getInputStream();
         Path path1 = Paths.get(path, imageName+suffix);

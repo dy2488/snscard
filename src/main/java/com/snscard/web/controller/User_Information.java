@@ -25,7 +25,7 @@ public class User_Information {
     }
 
     @RequestMapping("addAnswer")
-    public Result_Image addUserAnswer(String a1, String a2, String a3, String a4, String a5) throws Exception {
+    public String addUserAnswer(String a1, String a2, String a3, String a4, String a5) throws Exception {
         return informationService.addUserAnswer(a1,a2,a3,a4,a5);
     }
     @RequestMapping("getImage")
@@ -49,7 +49,7 @@ public class User_Information {
         return informationService.queryAllUserCropperImage(number);
     }
     @RequestMapping("insertInfo")
-    public Result_Info addUserInfo(int cardNum, String info, int templateNum, String imageUrl, int x1, int y1, int x3, int y3)  {
+    public Result_Info addUserInfo(int cardNum, String info, int templateNum, String imageUrl, int x1, int y1, int x3, int y3) throws IOException {
         return informationService.addUserInfo(cardNum, info, templateNum, imageUrl, x1, y1, x3, y3);
     }
     @RequestMapping("getUserInfo")
@@ -57,7 +57,7 @@ public class User_Information {
         return informationService.queryUserInfo(cardNum);
     }
     @RequestMapping("insertUrl")
-    public Result_Url insertUserUrl(@RequestParam(required = false)String github_url, @RequestParam(required = false) String naver_url, @RequestParam(required = false) String tistory_url,int cardNum) throws Exception {
+    public Object insertUserUrl(@RequestParam(required = false)String github_url, @RequestParam(required = false) String naver_url, @RequestParam(required = false) String tistory_url,int cardNum) throws Exception {
        return informationService.addUserUrl(github_url,naver_url,tistory_url,cardNum);
     }
 }

@@ -9,6 +9,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class UserGitHubUrl {
     private String name;
-    private String github_url;
+    private String github;
     private int cardNum;
 }
