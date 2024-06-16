@@ -1,4 +1,4 @@
-package com.snscard.web.pojo;
+package com.snscard.web.utils;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserInfo {
+public class ResultNameInfo {
     private String name;
     private int cardNum;
     private String info;

@@ -19,7 +19,6 @@ public class ImageCropper {
     private int x3;
     private int y3;
     private String path;
-    private String name;
     private String imageAllName;
     @Bean
     public void imageCropper()  {
@@ -27,7 +26,6 @@ public class ImageCropper {
             BufferedImage originalImage = ImageIO.read(new File(path));
             BufferedImage croppedImage = originalImage.getSubimage(x1,y1,x3-x1,y3-y1);
             String cropperImagePath="/root/img/modifyImages/"+imageAllName;
-            SecurityUtils.getSubject().getSession().setAttribute("cropperImagePath",cropperImagePath);
             ImageIO.write(croppedImage, "png", new File(cropperImagePath));
 
         }catch ( Exception e ){

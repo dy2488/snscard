@@ -3,17 +3,17 @@ package com.snscard.web.mapper;
 import com.snscard.web.pojo.*;
 import com.snscard.web.utils.GetTitleDate;
 import com.snscard.web.utils.ResultInfoAndImage;
+import com.snscard.web.utils.ResultNameInfo;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
 
 @Mapper
 public interface InformationMapper {
-    void insertUserPath(String name, String image_all_name, int cardNum);
+    void insertUserPath(ImagePath imagePath);
 
     List<String> queryAllUserImage(UserImage user_image);
 
-    void insertUserCropPath(String uuid, String name, String image_all_name);
 
     List<String> queryAllUserCropperImage(UserImage user_image);
 
@@ -26,13 +26,14 @@ public interface InformationMapper {
     void updateTistoryUrl(UserTistoryUrl userUrl);
 
 
-    void insertImageCoordinate(String name, int cardNum, int x1, int y1, int x3, int y3);
 
-    void insertUserInfo(String name, int cardNum, String info, int templateNum);
+    void insertUserInfo(UserInfo userInfo);
 
-    ResultInfoAndImage queryUserInfo(String name, int cardNum);
+    ResultNameInfo queryUserInfo(NameCardNum nameCardNum);
+    String queryInfo(NameCardNUmTemplateNum nameCardNUmTemplateNum);
+    void updateUserInfo(UserInfo userInfo);
 
-    void insertUserCropPath(String name, String imageAllName, int cardNum);
+    void insertUserCropPath(ImagePath imagePath);
     String queryGithubUrl(NameCardNum nameCardNum); ;
     String queryNaverUrl(NameCardNum nameCardNum); ;
     String queryTistoryUrl(NameCardNum nameCardNum); ;

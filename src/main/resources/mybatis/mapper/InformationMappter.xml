@@ -3,16 +3,22 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.snscard.web.mapper.InformationMapper">
-    <insert id="insertUserPath" parameterType="String">
+    <insert id="insertUserPath" parameterType="com.snscard.web.pojo.ImagePath">
         insert into path(name,image_all_name,cardNum) values (#{name},#{image_all_name},#{cardNum});
     </insert>
     <insert id="insertUserInfo" parameterType="com.snscard.web.pojo.UserInfo">
         insert into user_info(name,cardNum,info,templateNum) values (#{name},#{cardNum},#{info},#{templateNum})
     </insert>
-    <select id="queryUserInfo"  resultType="com.snscard.web.utils.ResultInfoAndImage">
-        select p.name, p.cardNum, u.info, p.image_all_name,u.templateNum,i.x1,i.x3,i.y1,i.y3 from user_info u join path p join image_coordinate i  where p.name=#{name}=u.name=i.name and p.cardNum=#{cardNum}=u.cardNum=i.cardNum
+    <select id="queryUserInfo" parameterType="com.snscard.web.pojo.NameCardNum" resultType="com.snscard.web.utils.ResultNameInfo">
+        select name, cardNum, info,templateNum from user_info  where name=#{name} and cardNum=#{cardNum}
     </select>
-    <insert id="insertUserCropPath" parameterType="String">
+    <select id="queryInfo" parameterType="com.snscard.web.pojo.NameCardNUmTemplateNum" resultType="String">
+       select info from user_info where name=#{name} and cardNum=#{cardNum} and templateNum=#{templateNum}
+    </select>
+    <update id="updateUserInfo" parameterType="com.snscard.web.pojo.UserInfo">
+        update user_info set info=#{info} where name=#{name} and cardNum=#{cardNum} and templateNum=#{templateNum}
+    </update>
+    <insert id="insertUserCropPath" parameterType="com.snscard.web.pojo.ImagePath">
         insert into crop_path(name,image_all_name,cardNum) values (#{name},#{image_all_name},#{cardNum});
     </insert>
     <parameterMap id="image" type="com.snscard.web.pojo.UserImage">
@@ -52,19 +58,19 @@
     <update id="updateTistoryInfo" parameterType="com.snscard.web.pojo.UserTitleDate">
         update github_info set title=#{title},date=#{date} where name=#{name} and cardNum=#{cardNum}
     </update>
-    <select id="querygithubInfo" parameterType="com.snscard.web.pojo.NameCardNum" resultType="com.snscard.web.utils.GetTitleDate">
+    <select id="queryGithubInfo" parameterType="com.snscard.web.pojo.NameCardNum" resultType="com.snscard.web.utils.GetTitleDate">
         select title,date from github_info where name=#{name} and cardNum=#{cardNum};
     </select>
-    <select id="querynaverInfo" parameterType="com.snscard.web.pojo.NameCardNum" resultType="com.snscard.web.utils.GetTitleDate">
+    <select id="queryNaverInfo" parameterType="com.snscard.web.pojo.NameCardNum" resultType="com.snscard.web.utils.GetTitleDate">
         select title,date from naver_info where name=#{name} and cardNum=#{cardNum};
     </select>
-    <select id="querytistoryInfo" parameterType="com.snscard.web.pojo.NameCardNum" resultType="com.snscard.web.utils.GetTitleDate">
+    <select id="queryTistoryInfo" parameterType="com.snscard.web.pojo.NameCardNum" resultType="com.snscard.web.utils.GetTitleDate">
         select title,date from tistory_info where name=#{name} and cardNum=#{cardNum};
     </select>
     <select id="queryGithubUrl" parameterType="com.snscard.web.pojo.NameCardNum">
         select github from github_url where name=#{name} and cardNum=#{cardNum}
     </select>
-    <select id="queryNaverubUrl" parameterType="com.snscard.web.pojo.NameCardNum">
+    <select id="queryNaverUrl" parameterType="com.snscard.web.pojo.NameCardNum">
         select naver from naver_url where name=#{name} and cardNum=#{cardNum}
     </select>
     <select id="queryTistoryUrl" parameterType="com.snscard.web.pojo.NameCardNum">

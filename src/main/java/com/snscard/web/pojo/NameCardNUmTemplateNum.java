@@ -7,9 +7,8 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserInfo {
+public class NameCardNUmTemplateNum {
     private String name;
     private int cardNum;
-    private String info;
     private int templateNum;
 }
