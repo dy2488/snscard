@@ -4,14 +4,12 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Result_Url_Info {
+public class Result_Url_And_Info {
     private int code;
-    private GetTitleDate github;
-    private GetTitleDate naver;
-    private GetTitleDate tistory;
+    private GetTitleDateUrl github;
+    private GetTitleDateUrl naver;
+    private GetTitleDateUrl tistory;
 }

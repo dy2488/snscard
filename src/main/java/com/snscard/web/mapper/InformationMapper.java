@@ -2,7 +2,6 @@ package com.snscard.web.mapper;
 
 import com.snscard.web.pojo.*;
 import com.snscard.web.utils.GetTitleDate;
-import com.snscard.web.utils.ResultInfoAndImage;
 import com.snscard.web.utils.ResultNameInfo;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -12,10 +11,6 @@ import java.util.List;
 public interface InformationMapper {
     void insertUserPath(ImagePath imagePath);
 
-    List<String> queryAllUserImage(UserImage user_image);
-
-
-    List<String> queryAllUserCropperImage(UserImage user_image);
 
     void insertGitHubUrl(UserGitHubUrl userUrl);
     void insertNaverUrl(UserNaverUrl userUrl);
@@ -50,5 +45,21 @@ public interface InformationMapper {
     void updateTistoryInfo(UserTitleDate userTitleDate);
 
     String querySampleUrl(int number);
+
+    List<String> queryUserAllGeneratedImage(UserImage userImage);
+    List<String> queryUserAllCropImage(UserImage userImage);
+
+    void insertUserAllGeneratedImage(String name,String image_all_name);
+    void insertUserAllCropImage(String name,String image_all_name);
+
+    void updatePath(ImagePath imagePath);
+    void updateCropPath(ImagePath imagePath);
+
+    String pathImageAllName(NameCardNum nameCardNum);
+    String cropPathImageAllName(NameCardNum nameCardNum);
+
+
+
+
 
 }

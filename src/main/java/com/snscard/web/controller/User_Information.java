@@ -3,12 +3,9 @@ package com.snscard.web.controller;
 import com.snscard.web.service.InformationService;
 import com.snscard.web.utils.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.Resource;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import javax.xml.transform.Result;
 import java.io.IOException;
 
 @RestController
@@ -23,8 +20,8 @@ public class User_Information {
     }
 
     @RequestMapping("addAnswer")
-    public Result_Image addUserAnswer(String a1, String a2, String a3, String a4, String a5) throws Exception {
-        return informationService.addUserAnswer(a1,a2,a3,a4,a5);
+    public Result_Image addUserAnswer(String a1, String a2, String a3, String a4, String a5,int cardNum) throws Exception {
+        return informationService.addUserAnswer(a1,a2,a3,a4,a5,cardNum);
     }
     @RequestMapping("getAllImage")
     public GetImageList queryAllUserImage(int number) throws IOException {
@@ -39,7 +36,7 @@ public class User_Information {
         return informationService.addUserInfo(cardNum, info, templateNum, imageUrl, x1, y1, x3, y3);
     }
     @RequestMapping("getUserInfo")
-    public ResultNameInfoCode queryUserInfo(int cardNum) {
+    public ResultNameInfoCodeImage queryUserInfo(int cardNum) {
         return informationService.queryUserInfo(cardNum);
     }
     @RequestMapping("insertUrl")
@@ -52,7 +49,7 @@ public class User_Information {
         return informationService.querySampleUrl();
     }
     @RequestMapping("getUserUrlInfo")
-    public Object queryUserUrlInfo(int cardNum) throws Exception {
+    public Result_Url_And_Info queryUserUrlInfo(int cardNum) throws Exception {
         return informationService.queryUserUrlInfo(cardNum);
     }
     @RequestMapping("modifyUserInfo")

@@ -7,8 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ImagePath {
+public class NameImageAllName {
     private String name;
     private String image_all_name;
-    private int cardNum;
 }

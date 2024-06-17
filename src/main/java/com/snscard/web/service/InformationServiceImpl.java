@@ -15,7 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 
-import java.io.IOException;
 import java.util.*;
 
 @Service
@@ -28,17 +27,13 @@ public class InformationServiceImpl implements InformationService {
         this.informationMapper = informationMapper;
     }
 
-
-
-
-
     @Override
     public GetImageList queryAllUserImage(int number) {
         Subject subject = SecurityUtils.getSubject();
         String username = (String) subject.getSession().getAttribute("username");
 //        pageNum=1;
         UserImage userImage = new UserImage(username, number);
-        List<String> userImagesPath = informationMapper.queryAllUserImage(userImage);
+        List<String> userImagesPath = informationMapper.queryUserAllGeneratedImage(userImage);
         List<String> list = new ArrayList<>();
         String localPath;
         for (String path : userImagesPath) {
@@ -53,7 +48,7 @@ public class InformationServiceImpl implements InformationService {
         Subject subject = SecurityUtils.getSubject();
         String username = (String) subject.getSession().getAttribute("username");
         UserImage userImage = new UserImage(username, number);
-        List<String> userImagesPath = informationMapper.queryAllUserCropperImage(userImage);
+        List<String> userImagesPath = informationMapper.queryUserAllCropImage(userImage);
         List<String> list = new ArrayList<>();
         String localPath;
         for (String path : userImagesPath) {
@@ -121,19 +116,19 @@ public class InformationServiceImpl implements InformationService {
 
 
     @Override
-    public Result_Info addUserInfo(int cardNum, String info, int templateNum, String imageUrl, int x1, int y1, int x3, int y3) throws IOException {
+    public Result_Info addUserInfo(int cardNum, String info, int templateNum, String imageUrl, int x1, int y1, int x3, int y3)  {
         Subject subject = SecurityUtils.getSubject();
         String username = (String) subject.getSession().getAttribute("username");
         String imageAllName = imageUrl.substring(37);
+        String path="/root/img/generatedImages/"+imageAllName;
         List<String> sampleName = Arrays.asList("1.png","2.png","3.png","4.png");
         if(sampleName.contains(imageAllName))
         {
             String uuid = UUID.randomUUID().toString();
             imageAllName=uuid+imageAllName;
         }
-        String rootPath= "/root/img/generatedImages/"+imageAllName;
-
-        new ImageCropper(x1, y1, x3, y3, rootPath,imageAllName).imageCropper();
+        new ImageCropper(x1, y1, x3, y3,path,imageAllName).imageCropper();
+        informationMapper.insertUserAllCropImage(username,imageAllName);
         String cropperImagePath="https://ourcards.top/modifyImages/"+imageAllName;
         String info1 = informationMapper.queryInfo(new NameCardNUmTemplateNum(username, cardNum, templateNum));
         if(info1==null)
@@ -142,15 +137,26 @@ public class InformationServiceImpl implements InformationService {
         }else{
             informationMapper.updateUserInfo(new UserInfo(username,cardNum,info,templateNum));
         }
-        informationMapper.insertUserCropPath(new ImagePath(username,imageAllName,cardNum));
+        String cropPathImageAllName = informationMapper.cropPathImageAllName(new NameCardNum(username, cardNum));
+        if(cropPathImageAllName==null)
+        {
+            informationMapper.insertUserCropPath(new ImagePath(username,imageAllName,cardNum));
+        }else{
+            informationMapper.updateCropPath(new ImagePath(username,imageAllName,cardNum));
+        }
         return new Result_Info(2001, new ResultInfoAndImage(username, cardNum, info,cropperImagePath, templateNum));
     }
 
     @Override
-    public ResultNameInfoCode queryUserInfo(int cardNum) {
+    public ResultNameInfoCodeImage queryUserInfo(int cardNum) {
         Subject subject = SecurityUtils.getSubject();
         String username = (String) subject.getSession().getAttribute("username");
-        return new ResultNameInfoCode(2007,informationMapper.queryUserInfo(new NameCardNum(username, cardNum)));
+        String imageAllName = informationMapper.pathImageAllName(new NameCardNum(username, cardNum));
+        String generatedUrl="https://ourcards.top/generatedImages/"+imageAllName;
+        String modifyUrl="https://ourcards.top/modifyImages/"+imageAllName;
+        ResultNameInfo resultNameInfo = informationMapper.queryUserInfo(new NameCardNum(username, cardNum));
+
+        return new ResultNameInfoCodeImage(2007,resultNameInfo.getName(),resultNameInfo.getCardNum(),resultNameInfo.getInfo(),generatedUrl,modifyUrl,resultNameInfo.getTemplateNum());
     }
 
     @Override
@@ -176,7 +182,7 @@ public class InformationServiceImpl implements InformationService {
     }
 
     @Override
-    public Object queryUserUrlInfo(int cardNum) throws Exception {
+    public Result_Url_And_Info  queryUserUrlInfo(int cardNum) throws Exception {
         Subject subject = SecurityUtils.getSubject();
         String username = (String)subject.getSession().getAttribute("username");
         String github = informationMapper.queryGithubUrl(new NameCardNum(username, cardNum));
@@ -185,37 +191,46 @@ public class InformationServiceImpl implements InformationService {
         GetTitleDate queryGithubInfo = informationMapper.queryGithubInfo(new NameCardNum(username, cardNum));
         GetTitleDate queryNaverInfo = informationMapper.queryNaverInfo(new NameCardNum(username, cardNum));
         GetTitleDate queryTistoryInfo = informationMapper.queryTistoryInfo(new NameCardNum(username, cardNum));
-        informationMapper.queryTistoryInfo(new NameCardNum(username, cardNum));
+        GetTitleDateUrl github1 = new GetTitleDateUrl();
+        GetTitleDateUrl naver1 = new GetTitleDateUrl();
+        GetTitleDateUrl tistory1 = new GetTitleDateUrl();
         if(github!=null)
         {
+            github1.setUrl(github);
             GetTitleDate githubInfo = new GetGithubInfo().getInfo(github);
             if(!queryGithubInfo.getTitle().equals(githubInfo.getTitle()))
             {
                 informationMapper.updateGithubInfo(new UserTitleDate(username,githubInfo.getTitle(),githubInfo.getDate(),cardNum));
             }
+        }else{
+            github1.setUrl("");
         }
         if(naver!=null)
         {
+            naver1.setUrl(naver);
             GetTitleDate naverInfo = new GetNaverInfo().getInfo(naver);
             if(!queryNaverInfo.getTitle().equals(naverInfo.getTitle()))
             {
                 informationMapper.updateNaverInfo(new UserTitleDate(username,naverInfo.getTitle(),naverInfo.getDate(),cardNum));
             }
+        }else{
+            naver1.setUrl("");
         }
         if(tistory!=null)
         {
+            tistory1.setUrl(tistory);
             GetTitleDate tistoryInfo = new GetTistoryInfo().getInfo(tistory);
             if (!queryTistoryInfo.getTitle().equals(tistoryInfo.getTitle()))
             {
                 informationMapper.updateTistoryInfo(new UserTitleDate(username,tistoryInfo.getTitle(),tistoryInfo.getDate(),cardNum));
             }
+        }else{
+            tistory1.setUrl("");
         }
+
         GetTitleDate g2 = informationMapper.queryGithubInfo(new NameCardNum(username, cardNum));
         GetTitleDate n2 = informationMapper.queryNaverInfo(new NameCardNum(username, cardNum));
         GetTitleDate t2 = informationMapper.queryTistoryInfo(new NameCardNum(username, cardNum));
-        GetTitleDate github1 = new GetTitleDate();
-        GetTitleDate naver1 = new GetTitleDate();
-        GetTitleDate tistory1 = new GetTitleDate();
         if(g2==null)
         {
             github1.setTitle("");
@@ -230,6 +245,7 @@ public class InformationServiceImpl implements InformationService {
            naver1.setTitle("");
            naver1.setDate("");
         }else{
+
             naver1.setTitle(n2.getTitle());
             naver1.setDate(n2.getDate());
         }
@@ -242,12 +258,12 @@ public class InformationServiceImpl implements InformationService {
             tistory1.setTitle(t2.getTitle());
             tistory1.setDate(t2.getDate());
         }
-        return new Result_Url_Info(2001,github1,naver1,tistory1);
+        return new Result_Url_And_Info(2001,github1,naver1,tistory1);
     }
 
 
     @Override
-    public Result_Image addUserAnswer(String a1, String a2, String a3, String a4, String a5) {
+    public Result_Image addUserAnswer(String a1, String a2, String a3, String a4, String a5,int cardNum) {
         try {
             String image = new Generate_Image().getImage(a1, a2, a3, a4, a5);
             String uuid = UUID.randomUUID().toString();
@@ -260,7 +276,15 @@ public class InformationServiceImpl implements InformationService {
             subject.getSession().setAttribute("rootPath",savePath+imageAllName);
             String imagePath=path+imageAllName;
             new SaveImage().save(image,imageAllName,savePath);
-            informationMapper.insertUserPath(new ImagePath(username,imageAllName));
+            informationMapper.insertUserAllGeneratedImage(username,imageAllName);
+            String pathImageAllName = informationMapper.pathImageAllName(new NameCardNum(username, cardNum));
+            if(pathImageAllName==null)
+            {
+                informationMapper.insertUserPath(new ImagePath(username,imageAllName,cardNum));
+            }else{
+                informationMapper.updatePath(new ImagePath(username,imageAllName,cardNum));
+            }
+
             return new Result_Image(2001,imagePath);
         } catch (Exception e) {
             return new Result_Image(2004,"저장 오류 발생");

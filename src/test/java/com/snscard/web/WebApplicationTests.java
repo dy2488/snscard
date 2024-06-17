@@ -13,13 +13,14 @@ import org.json.JSONObject;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
+import java.util.List;
+import java.util.UUID;
 
 //@SpringBootTest
 class WebApplicationTests {
     private String imageUrl;
     @Test
     void imageUrlTest() throws Exception {
-
 
 //        String image = new Generate_Image().getImage("비지니스 미팅", "전문적이고 신뢰할 수 있는 인상", "간단한 스타일", "강한 톤", "태양");
 //
