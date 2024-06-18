@@ -32,11 +32,11 @@ public class User_Information {
         return informationService.queryAllUserCropperImage(number);
     }
     @RequestMapping("insertInfo")
-    public Result_Info addUserInfo(int cardNum, String info, int templateNum, String imageUrl, int x1, int y1, int x3, int y3) throws IOException {
+    public Object addUserInfo(int cardNum, String info, int templateNum, String imageUrl, int x1, int y1, int x3, int y3) throws IOException {
         return informationService.addUserInfo(cardNum, info, templateNum, imageUrl, x1, y1, x3, y3);
     }
     @RequestMapping("getUserInfo")
-    public ResultNameInfoCodeImage queryUserInfo(int cardNum) {
+    public Object queryUserInfo(int cardNum) {
         return informationService.queryUserInfo(cardNum);
     }
     @RequestMapping("insertUrl")

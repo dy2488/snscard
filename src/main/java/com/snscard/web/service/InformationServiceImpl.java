@@ -116,10 +116,10 @@ public class InformationServiceImpl implements InformationService {
 
 
     @Override
-    public Result_Info addUserInfo(int cardNum, String info, int templateNum, String imageUrl, int x1, int y1, int x3, int y3)  {
+    public Object addUserInfo(int cardNum, String info, int templateNum, String imageUrl, int x1, int y1, int x3, int y3)  {
         Subject subject = SecurityUtils.getSubject();
         String username = (String) subject.getSession().getAttribute("username");
-        String imageAllName = imageUrl.substring(37);
+        String imageAllName= imageUrl.substring(37);
         String path="/root/img/generatedImages/"+imageAllName;
         List<String> sampleName = Arrays.asList("1.png","2.png","3.png","4.png");
         if(sampleName.contains(imageAllName))
@@ -127,7 +127,11 @@ public class InformationServiceImpl implements InformationService {
             String uuid = UUID.randomUUID().toString();
             imageAllName=uuid+imageAllName;
         }
-        new ImageCropper(x1, y1, x3, y3,path,imageAllName).imageCropper();
+        int i = new ImageCropper(x1, y1, x3, y3, path, imageAllName).imageCropper();
+       if(i==0)
+       {
+           return new Result_Code_Msg(2004,"자르는 좌표범위이 틀렬습니다.");
+       }
         informationMapper.insertUserAllCropImage(username,imageAllName);
         String cropperImagePath="https://ourcards.top/modifyImages/"+imageAllName;
         String info1 = informationMapper.queryInfo(new NameCardNUmTemplateNum(username, cardNum, templateNum));
@@ -148,13 +152,17 @@ public class InformationServiceImpl implements InformationService {
     }
 
     @Override
-    public ResultNameInfoCodeImage queryUserInfo(int cardNum) {
+    public Object queryUserInfo(int cardNum) {
         Subject subject = SecurityUtils.getSubject();
         String username = (String) subject.getSession().getAttribute("username");
         String imageAllName = informationMapper.pathImageAllName(new NameCardNum(username, cardNum));
         String generatedUrl="https://ourcards.top/generatedImages/"+imageAllName;
         String modifyUrl="https://ourcards.top/modifyImages/"+imageAllName;
         ResultNameInfo resultNameInfo = informationMapper.queryUserInfo(new NameCardNum(username, cardNum));
+        if(resultNameInfo==null)
+        {
+            return new Result_Code_Msg(2004,"해당정보가 없습니다.");
+        }
 
         return new ResultNameInfoCodeImage(2007,resultNameInfo.getName(),resultNameInfo.getCardNum(),resultNameInfo.getInfo(),generatedUrl,modifyUrl,resultNameInfo.getTemplateNum());
     }

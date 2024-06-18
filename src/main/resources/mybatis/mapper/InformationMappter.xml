@@ -7,7 +7,7 @@
         insert into path(name,image_all_name,cardNum) values (#{name},#{image_all_name},#{cardNum});
     </insert>
     <update id="updatePath" parameterType="com.snscard.web.pojo.ImagePath">
-        update path set image_all_name=#{iamge_all_name} where name=#{name} and cardNum=#{cardNum}
+        update path set image_all_name=#{image_all_name} where name=#{name} and cardNum=#{cardNum}
     </update>
     <select id="pathImageAllName" parameterType="com.snscard.web.pojo.NameCardNum" resultType="String">
         select image_all_name from path where name=#{name} and cardNum=#{cardNum}

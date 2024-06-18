@@ -114,7 +114,6 @@ public class DalleAPI //이미지생성 AI 관련 클래스 입니다. 기본적
         }//style,texture,tone
         prompt = prompt.replace("{tones}",revisedQ4);
         prompt = prompt.replace("{object}",revisedQ5);
-        System.out.println(prompt);
         return prompt;
     }
 
