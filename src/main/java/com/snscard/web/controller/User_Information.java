@@ -1,5 +1,4 @@
 package com.snscard.web.controller;
-
 import com.snscard.web.service.InformationService;
 import com.snscard.web.utils.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +18,12 @@ public class User_Information {
         this.informationService = informationService;
     }
 
+    @RequestMapping("searchUser")
+    public Object searchUserInfo(String id,int cardNum) {
+       return null;
+    }
+
+
     @RequestMapping("addAnswer")
     public Result_Image addUserAnswer(String a1, String a2, String a3, String a4, String a5,int cardNum) throws Exception {
         return informationService.addUserAnswer(a1,a2,a3,a4,a5,cardNum);
@@ -36,8 +41,8 @@ public class User_Information {
         return informationService.addUserInfo(cardNum, info, templateNum, imageUrl, x1, y1, x3, y3);
     }
     @RequestMapping("getUserInfo")
-    public Object queryUserInfo(int cardNum) {
-        return informationService.queryUserInfo(cardNum);
+    public Object queryUserInfo(@RequestParam(required = false) String id,int cardNum) {
+        return informationService.queryUserInfo(id,cardNum);
     }
     @RequestMapping("insertUrl")
     public Object insertUserUrl(@RequestParam(required = false)String github_url, @RequestParam(required = false) String naver_url, @RequestParam(required = false) String tistory_url,int cardNum) throws Exception {

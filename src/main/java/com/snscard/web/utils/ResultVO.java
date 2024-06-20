@@ -1,7 +1,4 @@
 package com.snscard.web.utils;
-
-import com.snscard.web.pojo.Users;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 

@@ -1,5 +1,4 @@
 package com.snscard.web.mapper;
-
 import com.snscard.web.pojo.Users;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -12,6 +11,4 @@ public interface UserMapper {
     void updateUser(String name,String password);
     String getSalt(String name);
     void setSalt(String name,String salt);
-
-
 }

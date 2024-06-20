@@ -1,5 +1,4 @@
 package com.snscard.web.GetNaver;
-
 import API.api.NaverAPI;
 import API.dto.Post;
 import com.snscard.web.UrlApi.Url;

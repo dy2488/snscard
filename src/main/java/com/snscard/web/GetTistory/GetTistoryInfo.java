@@ -1,5 +1,4 @@
 package com.snscard.web.GetTistory;
-
 import API.api.TistoryAPI;
 import API.dto.Post;
 import com.snscard.web.UrlApi.Url;

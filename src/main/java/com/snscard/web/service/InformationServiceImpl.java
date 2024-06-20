@@ -152,19 +152,56 @@ public class InformationServiceImpl implements InformationService {
     }
 
     @Override
-    public Object queryUserInfo(int cardNum) {
-        Subject subject = SecurityUtils.getSubject();
-        String username = (String) subject.getSession().getAttribute("username");
-        String imageAllName = informationMapper.pathImageAllName(new NameCardNum(username, cardNum));
-        String generatedUrl="https://ourcards.top/generatedImages/"+imageAllName;
-        String modifyUrl="https://ourcards.top/modifyImages/"+imageAllName;
-        ResultNameInfo resultNameInfo = informationMapper.queryUserInfo(new NameCardNum(username, cardNum));
-        if(resultNameInfo==null)
+    public Object queryUserInfo(String id,int cardNum) {
+        String  pathImageAllName= informationMapper.pathImageAllName(new NameCardNum(id, cardNum));
+        String cropPathImageAllName = informationMapper.cropPathImageAllName(new NameCardNum(id, cardNum));
+        if("".equals(id)||id==null)
         {
-            return new Result_Code_Msg(2004,"해당정보가 없습니다.");
-        }
+            Subject subject = SecurityUtils.getSubject();
+            String username = (String) subject.getSession().getAttribute("username");
+            pathImageAllName = informationMapper.pathImageAllName(new NameCardNum(username, cardNum));
+            cropPathImageAllName = informationMapper.cropPathImageAllName(new NameCardNum(username, cardNum));
+            String generatedUrl="";
+            String modifyUrl="";
+            if(pathImageAllName!=null)
+            {
+                generatedUrl="https://ourcards.top/generatedImages/"+pathImageAllName;
+            }
+            if(cropPathImageAllName!=null)
+            {
+                modifyUrl="https://ourcards.top/modifyImages/"+cropPathImageAllName;
+            }
+            ResultNameInfo resultNameInfo = informationMapper.queryUserInfo(new NameCardNum(username, cardNum));
+            if(resultNameInfo==null)
+            {
+                return new Result_Code_Msg(2004,"해당정보가 없습니다.");
+            }
 
-        return new ResultNameInfoCodeImage(2007,resultNameInfo.getName(),resultNameInfo.getCardNum(),resultNameInfo.getInfo(),generatedUrl,modifyUrl,resultNameInfo.getTemplateNum());
+            return new ResultNameInfoCodeImage(2007,resultNameInfo.getName(),resultNameInfo.getCardNum(),resultNameInfo.getInfo(),generatedUrl,modifyUrl,resultNameInfo.getTemplateNum());
+        }else{
+
+            ResultNameInfo resultNameInfo = informationMapper.queryUserInfo(new NameCardNum(id, cardNum));
+            if(cardNum==1 && resultNameInfo==null)
+            {
+                return new Result_Code_Msg(2004,id+"사용자가 존재하지 않습니다. 혹은"+id+"사용자가 아직 명함을 생성하 지않는 상태입니다.");
+            }
+            if(cardNum!=1 && resultNameInfo==null)
+            {
+                return new Result_Code_Msg(2004,id+"사용자가 존해하지 않습니다. 혹은 "+id+"사용자의 명함"+cardNum+"번호를 사용하지 않은 상태입니다.");
+            }
+            String generatedImagePath="";
+            String cropImagePath="";
+            if(pathImageAllName!=null)
+            {
+                generatedImagePath="https://ourcards.top/generatedImages/"+pathImageAllName;
+            }
+            if(cropPathImageAllName!=null)
+            {
+                cropImagePath="https://ourcards.top/modifyImages/"+cropPathImageAllName;
+            }
+            return new ResultNameInfoCodeImage(2007,resultNameInfo.getName(),resultNameInfo.getCardNum(),resultNameInfo.getInfo(),generatedImagePath,cropImagePath,resultNameInfo.getTemplateNum());
+
+        }
     }
 
     @Override
@@ -268,6 +305,7 @@ public class InformationServiceImpl implements InformationService {
         }
         return new Result_Url_And_Info(2001,github1,naver1,tistory1);
     }
+
 
 
     @Override

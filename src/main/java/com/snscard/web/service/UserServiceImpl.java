@@ -3,7 +3,6 @@ package com.snscard.web.service;
 import com.snscard.web.mapper.UserMapper;
 import com.snscard.web.pojo.Users;
 import com.snscard.web.utils.ResultVO;
-import jakarta.servlet.http.HttpSession;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.UsernamePasswordToken;
@@ -60,14 +59,6 @@ public class UserServiceImpl implements UserService {
         return new ResultVO(1004, "이미 존재하는 사용자입니다");
     }
 
-    @Override
-    public ResultVO deleteUser(HttpSession session) {
-//        Subject subject = SecurityUtils.getSubject();
-        String username = (String) session.getAttribute("username");
-        userMapper.deleteUser(username);
-        String msg=username+"고객님 정보 삭제되었습니다";
-        return new ResultVO(1007,msg);
-    }
 
     @Override
     public ResultVO updateUser(String password) {

@@ -1,5 +1,4 @@
 package com.snscard.web.config;
-
 import com.snscard.web.mapper.UserMapper;
 import com.snscard.web.realm.UsersRealm;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;

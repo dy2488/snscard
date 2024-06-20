@@ -1,7 +1,6 @@
 package com.snscard.web.config;
 import org.json.JSONArray;
 import org.json.JSONObject;
-
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;

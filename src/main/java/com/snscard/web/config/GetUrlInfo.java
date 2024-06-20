@@ -1,11 +1,9 @@
 package com.snscard.web.config;
-
 import com.snscard.web.GetGithub.GetGithubInfo;
 import com.snscard.web.GetNaver.GetNaverInfo;
 import com.snscard.web.GetTistory.GetTistoryInfo;
 import com.snscard.web.UrlApi.Url;
 import com.snscard.web.utils.GetTitleDate;
-import com.snscard.web.utils.Result_Url;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
